@@ -33,6 +33,27 @@ Muon_charge = NanoAODQuantity("Muon_charge")
 Muon_genMatch = NanoAODQuantity("Muon_genPartFlav")
 Muon_indexToGen = NanoAODQuantity("Muon_genPartIdx")
 
+"""
+---------------------------------------
+New muon variables from NANOAODSIM file
+---------------------------------------
+"""
+
+Muon_ptErr = NanoAODQuantity("Muon_ptErr")
+Muon_jetIdx = NanoAODQuantity("Muon_jetIdx")
+Muon_nTrackerLayers = NanoAODQuantity("Muon_nTrackLayers")
+Muon_tightCharge = NanoAODQuantity("Muon_tightCharge")
+Muon_highPtId = NanoAODQuantity("Muon_highPtId")
+Muon_highPurity = NanoAODQuantity("Muon_highPurity")
+Muon_isGlobal = NanoAODQuantity("Muon_isGlobal")
+Muon_mediumId = NanoAODQuantity("Muon_mediumId")
+Muon_tightId = NanoAODQuantity("Muon_tightId")
+
+"""
+---------------------------------------
+"""
+
+
 Electron_pt = NanoAODQuantity("Electron_pt")
 Electron_eta = NanoAODQuantity("Electron_eta")
 Electron_dxy = NanoAODQuantity("Electron_dxy")
@@ -55,6 +76,26 @@ Jet_ID = NanoAODQuantity("Jet_jetId")
 Jet_PUID = NanoAODQuantity("Jet_puId")
 Jet_associatedGenJet = NanoAODQuantity("Jet_genJetIdx")
 BJet_discriminator = NanoAODQuantity("Jet_btagDeepFlavB")
+
+"""
+---------------------------------------
+New Jet variables from NANOAODSIM file
+---------------------------------------
+"""
+
+Jet_btagDeepFlavC = NanoAODQuantity("Jet_btagDeepFlavC")
+Jet_muEF = NanoAODQuantity("Jet_muEF")
+Jet_nConstituents = NanoAODQuantity("Jet_nConstituents")
+Jet_nElectrons = NanoAODQuantity("Jet_nElectrons")
+Jet_nMuons = NanoAODQuantity("Jet_nMuons")
+
+GenJet_mass = NanoAODQuantity("GenJet_mass") 
+GenJet_parton_Flavour = NanoAODQuantity("GenJet_parton_Flavour")
+GenJet_hadronFlavour = NanoAODQuantity("GenJet_hadronFlavour")
+
+"""
+---------------------------------------
+"""
 
 Pileup_nTrueInt = NanoAODQuantity("Pileup_nTrueInt")
 rho = NanoAODQuantity("Pileup_pudensity")
@@ -115,3 +156,32 @@ TauEmbedding_InitialPairCandidates = NanoAODQuantity(
 )
 TauEmbedding_SelectionOldMass = NanoAODQuantity("TauEmbedding_SelectionOldMass")
 TauEmbedding_SelectionNewMass = NanoAODQuantity("TauEmbedding_SelectionNewMass")
+
+"""
+---------------------------------------
+New Primary Vertex variables from NANOAODSIM file
+---------------------------------------
+"""
+
+PV_ndof = NanoAODQuantity("PV_ndof")
+PV_x = NanoAODQuantity("PV_x")
+PV_y = NanoAODQuantity("PV_y")
+PV_z = NanoAODQuantity("PV_z")
+PV_chi2 = NanoAODQuantity("PV_chi2")
+PV_score = NanoAODQuantity("PV_score")
+PV_npvs = NanoAODQuantity("PV_npvs")
+PV_npvsGood = NanoAODQuantity("PV_npvsGood")
+
+"""
+---------------------------------------
+New fsr Photon variables from NANOAODSIM file
+---------------------------------------
+"""
+
+nFsrPhoton = NanoAODQuantity("nFsrPhoton")
+FsrPhoton = NanoAODQuantity("FsrPhoton")
+FsrPhoton_eta = NanoAODQuantity("FsrPhoton_eta")
+FsrPhoton_phi = NanoAODQuantity("FsrPhoton_phi")
+FsrPhoton_pt = NanoAODQuantity("FsrPhoton_pt")
+FsrPhoton_muonIdx = NanoAODQuantity("FsrPhoton_muonIdx")
+
