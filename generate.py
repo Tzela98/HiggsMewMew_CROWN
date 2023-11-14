@@ -13,8 +13,8 @@ def run(args):
         "wjets",
         "diboson",
     ]
-    available_eras = ["2018"]
-    available_scopes = ["mm"]
+    available_eras = ["2016", "2017", "2018"]
+    available_scopes = ["vbf"]
 
     ## setup variables
     shifts = set([shift.lower() for shift in args.shifts])

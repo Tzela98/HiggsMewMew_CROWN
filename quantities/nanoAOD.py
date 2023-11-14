@@ -39,15 +39,15 @@ New muon variables from NANOAODSIM file
 ---------------------------------------
 """
 
-Muon_ptErr = NanoAODQuantity("Muon_ptErr")
-Muon_jetIdx = NanoAODQuantity("Muon_jetIdx")
+# Muon_id_medium = NanoAODQuantity("Muon_mediumId")
+# Muon_ptErr = NanoAODQuantity("Muon_ptErr")
+# Muon_jetIdx = NanoAODQuantity("Muon_jetIdx")
 Muon_nTrackerLayers = NanoAODQuantity("Muon_nTrackLayers")
-Muon_tightCharge = NanoAODQuantity("Muon_tightCharge")
-Muon_highPtId = NanoAODQuantity("Muon_highPtId")
-Muon_highPurity = NanoAODQuantity("Muon_highPurity")
-Muon_isGlobal = NanoAODQuantity("Muon_isGlobal")
-Muon_mediumId = NanoAODQuantity("Muon_mediumId")
-Muon_tightId = NanoAODQuantity("Muon_tightId")
+# Muon_tightCharge = NanoAODQuantity("Muon_tightCharge")
+# Muon_highPtId = NanoAODQuantity("Muon_highPtId")
+# Muon_highPurity = NanoAODQuantity("Muon_highPurity")
+# Muon_isGlobal = NanoAODQuantity("Muon_isGlobal")
+# Muon_tightId = NanoAODQuantity("Muon_tightId")
 
 """
 ---------------------------------------
@@ -64,6 +64,13 @@ Electron_iso = NanoAODQuantity("Electron_pfRelIso03_all")
 Electron_charge = NanoAODQuantity("Electron_charge")
 Electron_indexToGen = NanoAODQuantity("Electron_genPartIdx")
 
+
+"""
+---------------------------------------
+New Jet variables from NANOAODSIM file
+---------------------------------------
+"""
+
 GenJet_pt = NanoAODQuantity("GenJet_pt")
 GenJet_eta = NanoAODQuantity("GenJet_eta")
 GenJet_phi = NanoAODQuantity("GenJet_phi")
@@ -72,26 +79,15 @@ Jet_eta = NanoAODQuantity("Jet_eta")
 Jet_phi = NanoAODQuantity("Jet_phi")
 Jet_pt = NanoAODQuantity("Jet_pt")
 Jet_mass = NanoAODQuantity("Jet_mass")
+Jet_area = NanoAODQuantity("Jet_area")
+Jet_flavor = NanoAODQuantity("Jet_hadronFlavour")
+Jet_rawFactor = NanoAODQuantity("Jet_rawFactor")
 Jet_ID = NanoAODQuantity("Jet_jetId")
 Jet_PUID = NanoAODQuantity("Jet_puId")
 Jet_associatedGenJet = NanoAODQuantity("Jet_genJetIdx")
 BJet_discriminator = NanoAODQuantity("Jet_btagDeepFlavB")
 
-"""
----------------------------------------
-New Jet variables from NANOAODSIM file
----------------------------------------
-"""
-
-Jet_btagDeepFlavC = NanoAODQuantity("Jet_btagDeepFlavC")
-Jet_muEF = NanoAODQuantity("Jet_muEF")
-Jet_nConstituents = NanoAODQuantity("Jet_nConstituents")
-Jet_nElectrons = NanoAODQuantity("Jet_nElectrons")
-Jet_nMuons = NanoAODQuantity("Jet_nMuons")
-
-GenJet_mass = NanoAODQuantity("GenJet_mass") 
-GenJet_parton_Flavour = NanoAODQuantity("GenJet_parton_Flavour")
-GenJet_hadronFlavour = NanoAODQuantity("GenJet_hadronFlavour")
+rho = NanoAODQuantity("fixedGridRhoFastjetAll")
 
 """
 ---------------------------------------
@@ -163,14 +159,14 @@ New Primary Vertex variables from NANOAODSIM file
 ---------------------------------------
 """
 
-PV_ndof = NanoAODQuantity("PV_ndof")
-PV_x = NanoAODQuantity("PV_x")
-PV_y = NanoAODQuantity("PV_y")
-PV_z = NanoAODQuantity("PV_z")
-PV_chi2 = NanoAODQuantity("PV_chi2")
-PV_score = NanoAODQuantity("PV_score")
-PV_npvs = NanoAODQuantity("PV_npvs")
-PV_npvsGood = NanoAODQuantity("PV_npvsGood")
+# PV_ndof = NanoAODQuantity("PV_ndof")
+# PV_x = NanoAODQuantity("PV_x")
+# PV_y = NanoAODQuantity("PV_y")
+# PV_z = NanoAODQuantity("PV_z")
+# PV_chi2 = NanoAODQuantity("PV_chi2")
+# PV_score = NanoAODQuantity("PV_score")
+# PV_npvs = NanoAODQuantity("PV_npvs")
+# PV_npvsGood = NanoAODQuantity("PV_npvsGood")
 
 """
 ---------------------------------------
@@ -178,10 +174,10 @@ New fsr Photon variables from NANOAODSIM file
 ---------------------------------------
 """
 
-nFsrPhoton = NanoAODQuantity("nFsrPhoton")
-FsrPhoton = NanoAODQuantity("FsrPhoton")
-FsrPhoton_eta = NanoAODQuantity("FsrPhoton_eta")
-FsrPhoton_phi = NanoAODQuantity("FsrPhoton_phi")
-FsrPhoton_pt = NanoAODQuantity("FsrPhoton_pt")
-FsrPhoton_muonIdx = NanoAODQuantity("FsrPhoton_muonIdx")
+# nFsrPhoton = NanoAODQuantity("nFsrPhoton")
+# FsrPhoton = NanoAODQuantity("FsrPhoton")
+# FsrPhoton_eta = NanoAODQuantity("FsrPhoton_eta")
+# FsrPhoton_phi = NanoAODQuantity("FsrPhoton_phi")
+# FsrPhoton_pt = NanoAODQuantity("FsrPhoton_pt")
+# FsrPhoton_muonIdx = NanoAODQuantity("FsrPhoton_muonIdx")
 

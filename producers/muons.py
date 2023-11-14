@@ -64,6 +64,7 @@ BaseMuons = ProducerGroup(
     ],
 )
 
+
 ####################
 # Set of producers used for more specific selection of muons in channels
 ####################
@@ -73,28 +74,28 @@ GoodMuonPtCut = Producer(
     call="physicsobject::CutPt({df}, {input}, {output}, {min_muon_pt})",
     input=[nanoAOD.Muon_pt],
     output=[],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
 )
 GoodMuonEtaCut = Producer(
     name="GoodMuonEtaCut",
     call="physicsobject::CutEta({df}, {input}, {output}, {max_muon_eta})",
     input=[nanoAOD.Muon_eta],
     output=[],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
 )
 GoodMuonIsoCut = Producer(
     name="GoodMuonIsoCut",
     call="physicsobject::electron::CutIsolation({df}, {output}, {input}, {muon_iso_cut})",
     input=[nanoAOD.Muon_iso],
     output=[],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
 )
 GoodMuons = ProducerGroup(
     name="GoodMuons",
     call="physicsobject::CombineMasks({df}, {output}, {input})",
     input=[q.base_muons_mask],
     output=[q.good_muons_mask],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
     subproducers=[
         GoodMuonPtCut,
         GoodMuonEtaCut,
@@ -106,21 +107,21 @@ NumberOfGoodMuons = Producer(
     call="quantities::NumberOfGoodLeptons({df}, {output}, {input})",
     input=[q.good_muons_mask],
     output=[q.nmuons],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
 )
 VetoMuons = Producer(
     name="VetoMuons",
     call="physicsobject::VetoCandInMask({df}, {output}, {input}, {muon_index_in_pair})",
     input=[q.base_muons_mask, q.dileptonpair],
     output=[q.veto_muons_mask],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
 )
 VetoSecondMuon = Producer(
     name="VetoSecondMuon",
     call="physicsobject::VetoCandInMask({df}, {output}, {input}, {second_muon_index_in_pair})",
     input=[q.veto_muons_mask, q.dileptonpair],
     output=[q.veto_muons_mask_2],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
 )
 
 ExtraMuonsVeto = Producer(
@@ -128,9 +129,10 @@ ExtraMuonsVeto = Producer(
     call="physicsobject::LeptonVetoFlag({df}, {output}, {input})",
     input={
         "mm": [q.veto_muons_mask_2],
+        "vbf": [q.veto_muons_mask_2],
     },
     output=[q.muon_veto_flag],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
 )
 
 ####################

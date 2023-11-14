@@ -17,7 +17,7 @@ MMPairSelection = Producer(
         q.good_muons_mask,
     ],
     output=[q.dileptonpair],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
 )
 ZMMPairSelection = Producer(
     name="MMPairSelection",
@@ -30,7 +30,7 @@ ZMMPairSelection = Producer(
         q.good_muons_mask,
     ],
     output=[q.dileptonpair],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
 )
 
 GoodMMPairFlag = Producer(
@@ -38,14 +38,14 @@ GoodMMPairFlag = Producer(
     call="ditau_pairselection::flagGoodPairs({df}, {output}, {input})",
     input=[q.dileptonpair],
     output=[],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
 )
 
 GoodMMPairFilter = Filter(
     name="GoodMMPairFilter",
     call='basefunctions::FilterFlagsAny({df}, "GoodMuMuPairs", {input})',
     input=[],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
     subproducers=[GoodMMPairFlag],
 )
 
@@ -61,7 +61,7 @@ LVMu1 = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_1],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
 )
 LVMu2 = Producer(
     name="LVMu2",
@@ -74,7 +74,7 @@ LVMu2 = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_2],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
 )
 
 ## uncorrected versions of all particles, used for MET propagation
@@ -89,7 +89,7 @@ LVMu1Uncorrected = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_1_uncorrected],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
 )
 LVMu2Uncorrected = Producer(
     name="LVMu2Uncorrected",
@@ -102,5 +102,5 @@ LVMu2Uncorrected = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_2_uncorrected],
-    scopes=["mm"],
+    scopes=["mm","vbf"],
 )
