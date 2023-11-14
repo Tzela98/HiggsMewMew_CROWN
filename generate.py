@@ -13,7 +13,7 @@ def run(args):
         "wjets",
         "diboson",
     ]
-    available_eras = ["2017", "2020"]
+    available_eras = ["2016", "2017", "2018"]
     available_scopes = ["vbf"]
 
     ## setup variables
