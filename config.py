@@ -129,6 +129,8 @@ def build_config(
             "muon_iso_cut": 0.25,
             "min_jet_pt": 25,
             "max_jet_eta": 4.7,
+            "min_njets": 2,
+            "min_nbjets": 0,
             "jet_reapplyJES": False,
             "jet_jes_sources": '{""}',
             "jet_jes_shift": 0,
@@ -187,6 +189,23 @@ def build_config(
                 }
             ),
 
+        },
+    )
+
+    #bjet scale factors
+    configuration.add_config_parameters(
+	scopes,
+        {
+            "btag_sf_file": EraModifier(
+                {
+                    "2016preVFP": "data/jsonpog-integration/POG/BTV/2016preVFP_UL/btagging.json.gz",
+                    "2016postVFP": "data/jsonpog-integration/POG/BTV/2016postVFP_UL/btagging.json.gz",
+                    "2017": "data/jsonpog-integration/POG/BTV/2017_UL/btagging.json.gz",
+                    "2018": "data/jsonpog-integration/POG/BTV/2018_UL/btagging.json.gz",
+                }
+            ),
+            "btag_sf_variation": "central",
+            "btag_corr_algo": "deepJet_shape",
         },
     )
 
@@ -267,10 +286,12 @@ def build_config(
             jets.JetCollection,
             jets.BasicJetQuantities,
             jets.BJetCollection,
+	    jets.BasicBJetQuantities,
             jets.JetPtCorrection,
             jets.JetMassCorrection,
             jets.GoodBJets,
             scalefactors.MuonIDIso_SF,
+	    scalefactors.btagging_SF
         ],
     )
 
@@ -343,21 +364,18 @@ def build_config(
             q.jphi_2,
             q.jtag_value_1,
             q.jtag_value_2,
-            q.mjj,
-            
-            # b producers left put at first, must later added to vbf producer list 
-            
-            #q.nbtag,
-            #q.bpt_1,
-            #q.bpt_2,
-            #q.beta_1,
-            #q.beta_2,
-            #q.bphi_1,
-            #q.bphi_2,
-            #q.btag_value_1,
-            #q.btag_value_2,
-            #q.btag_weight,
-            
+            q.mjj,           
+            q.nbtag,
+            q.bpt_1,
+            q.bpt_2,
+            q.beta_1,
+            q.beta_2,
+            q.bphi_1,
+            q.bphi_2,
+            q.btag_value_1,
+            q.btag_value_2,
+            q.btag_weight,
+
             q.gen_pt_1,
             q.gen_eta_1,
             q.gen_phi_1,

@@ -202,6 +202,17 @@ BJetCollection = ProducerGroup(
     subproducers=[GoodBJetsWithVeto],
 )
 
+JetSelection = Producer(
+        name="JetSelection",
+        call="topreco::JetSelectionVbfScope({df}, {input}, {output})",
+        input=[
+            q.njets,
+            q.nbtag,
+        ],
+        output=None,
+        scopes=["vbf"],
+)
+
 ##########################
 # Basic Jet Quantities
 # njets, pt, eta, phi, b-tag value
