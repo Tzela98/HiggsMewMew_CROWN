@@ -6,6 +6,7 @@ from .producers import event as event
 from .producers import genparticles as genparticles
 from .producers import muons as muons
 from .producers import jets as jets
+from .producers import jetselection as jetselection
 from .producers import pairquantities as pairquantities
 from .producers import pairselection as pairselection
 from .producers import scalefactors as scalefactors
@@ -104,19 +105,6 @@ def build_config(
             "muon_iso_cut": 0.25,
         },
     )
-    # MM scope Muon selection
-    '''
-    configuration.add_config_parameters(
-        ["mm"],
-        {
-            "muon_index_in_pair": 0,
-            "second_muon_index_in_pair": 1,
-            "min_muon_pt": 20.0,
-            "max_muon_eta": 2.4,
-            "muon_iso_cut": 0.25,
-        },
-    )
-    '''
     
     # vbf scope muon and jet selection
     configuration.add_config_parameters(
@@ -254,22 +242,6 @@ def build_config(
         ],
     )
 
-    '''
-    configuration.add_producers(
-        "mm",
-        [
-            muons.GoodMuons,
-            muons.NumberOfGoodMuons,
-            pairselection.ZMMPairSelection,
-            pairselection.GoodMMPairFilter,
-            pairselection.LVMu1,
-            pairselection.LVMu2,
-            pairquantities.MMDiTauPairQuantities,
-            genparticles.MMGenDiTauPairQuantities,
-            scalefactors.MuonIDIso_SF,
-        ],
-    )
-    '''
 
     configuration.add_producers(
         "vbf",
@@ -280,61 +252,64 @@ def build_config(
             pairselection.GoodMMPairFilter,
             pairselection.LVMu1,
             pairselection.LVMu2,
-            pairquantities.MMDiTauPairQuantities,
+	    pairquantities.MuMuPairQuantities,
+	    pairquantities.pt_dijet,
             genparticles.MMGenDiTauPairQuantities,
-            jets.GoodJets,
             jets.JetCollection,
             jets.BasicJetQuantities,
             jets.BJetCollection,
 	    jets.BasicBJetQuantities,
             jets.JetPtCorrection,
+	    jets.JetPtCorrection_data,
             jets.JetMassCorrection,
-            jets.GoodBJets,
+	    jets.GoodJets,
+	    jets.GoodBJets,
             scalefactors.MuonIDIso_SF,
-	    scalefactors.btagging_SF
+	    scalefactors.btagging_SF,
+            jetselection.JetSelectionFilter,
         ],
     )
 
-    '''
-    configuration.add_outputs(
-        "mm",
-        [
-            q.is_data,
-            q.is_embedding,
-            q.is_ttbar,
-            q.is_dyjets,
-            q.is_wjets,
-            q.is_diboson,
-            nanoAOD.run,
-            q.lumi,
-            nanoAOD.event,
-            q.puweight,
-            q.pt_1,
-            q.pt_2,
-            q.eta_1,
-            q.eta_2,
-            q.phi_1,
-            q.phi_2,
-            q.m_vis,
-            q.gen_pt_1,
-            q.gen_eta_1,
-            q.gen_phi_1,
-            q.gen_mass_1,
-            q.gen_pdgid_1,
-            q.gen_pt_2,
-            q.gen_eta_2,
-            q.gen_phi_2,
-            q.gen_mass_2,
-            q.gen_pdgid_2,
-            q.gen_m_vis,
-            q.id_wgt_mu_1,
-            q.id_wgt_mu_2,
-            q.iso_wgt_mu_1,
-            q.iso_wgt_mu_2,
-        ],
-    )
-    '''
+    # Add prefiring for eras != 2018
+    if era != "2018":
+        configuration.add_producers(
+            "global",
+            [
+                event.PrefireWeight,
+            ],
+        )
 
+    configuration.add_modification_rule(
+        "global",
+        RemoveProducer(
+            producers=[event.PUweights],
+            samples=["data"],
+        ),
+    )
+
+    configuration.add_modification_rule(
+        ["vbf"],
+        RemoveProducer(
+            producers=[
+                genparticles.MMGenDiTauPairQuantities,
+                scalefactors.MuonIDIso_SF,
+		scalefactors.btagging_SF,
+		jets.JetPtCorrection,
+            ],
+            samples=["data"],
+        ),
+    )
+
+    configuration.add_modification_rule(
+        ["vbf"],
+        RemoveProducer(
+            producers=[
+                jets.JetPtCorrection_data,
+            ],
+            samples=["dyjets", "ttbar", "diboson", "electroweak_boson", "singletop", "triboson"],
+        ),
+    )
+    
     configuration.add_outputs(
         "vbf",
         [
@@ -355,6 +330,7 @@ def build_config(
             q.phi_1,
             q.phi_2,
             q.m_vis,
+	    q.pt_vis,
             q.njets,
             q.jpt_1,
             q.jpt_2,
@@ -364,7 +340,8 @@ def build_config(
             q.jphi_2,
             q.jtag_value_1,
             q.jtag_value_2,
-            q.mjj,           
+            q.mjj, 
+	    q.pt_dijet,          
             q.nbtag,
             q.bpt_1,
             q.bpt_2,
@@ -374,8 +351,7 @@ def build_config(
             q.bphi_2,
             q.btag_value_1,
             q.btag_value_2,
-            q.btag_weight,
-
+	    q.btag_weight,
             q.gen_pt_1,
             q.gen_eta_1,
             q.gen_phi_1,
@@ -391,29 +367,25 @@ def build_config(
             q.id_wgt_mu_2,
             q.iso_wgt_mu_1,
             q.iso_wgt_mu_2,
+	    
         ],
     )
 
+    # add genWeight for everything but data
+    if sample != "data":
+        configuration.add_outputs(
+            scopes,
+            nanoAOD.genWeight,
+        )
+        if era != "2018":
+            configuration.add_outputs(
+                scopes,
+                q.prefireweight,
+            )
 
-    configuration.add_modification_rule(
-        "global",
-        RemoveProducer(
-            producers=[event.PUweights],
-            samples=["data"],
-        ),
-    )
+
+
     '''
-    configuration.add_modification_rule(
-        "mm",
-        RemoveProducer(
-            producers=[
-                genparticles.MMGenDiTauPairQuantities,
-                scalefactors.MuonIDIso_SF,
-            ],
-            samples=["data"],
-        ),
-    )
-
     configuration.add_shift(
         SystematicShift(
             name="MuonIDUp",

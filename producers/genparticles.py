@@ -238,3 +238,11 @@ MMTrueGenDiTauPairQuantities = ProducerGroup(
         gen_m_vis,
     ],
 )
+
+EmbeddingGenWeight = Producer(
+    name="EmbeddingGenWeight",
+    call="basefunctions::rename<Float_t>({df}, {input}, {output})",
+    input=[nanoAOD.genWeight],
+    output=[q.emb_genWeight],
+    scopes=["vbf"],
+)

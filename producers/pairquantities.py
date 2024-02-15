@@ -170,6 +170,16 @@ UnrollMuLV2 = ProducerGroup(
         muon_iso_2,
     ],
 )
+
+pt_dijet = Producer(
+    name="pt_dijet",
+    call="quantities::pt_dijet({df}, {output}, {input})",
+    input=[q.jet_p4_1, q.jet_p4_2],
+    output=[q.pt_dijet],
+    scopes=["vbf"],
+)
+
+
 #####################
 # Producer Groups
 #####################
@@ -179,15 +189,25 @@ MMDiTauPairQuantities = ProducerGroup(
     call=None,
     input=None,
     output=None,
-    scopes=["mm","vbf"],
+    scopes=["vbf"],
     subproducers=[UnrollMuLV1, UnrollMuLV2, m_vis, pt_vis],
 )
 
 
+MuMuPairQuantities = ProducerGroup(
+    name="MuMuPairQuantities",
+    call=None,
+    input=None,
+    output=None,
+    scopes=["vbf"],
+    subproducers=[
+        UnrollMuLV1,
+        UnrollMuLV2,
+        m_vis,
+        pt_vis,
+    ],
+)
 
-#############################
-#New producers for hmm
-#############################
 
 
 

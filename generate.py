@@ -8,12 +8,16 @@ def run(args):
     available_samples = [
         "data",
         "embedding",
+	#"rem_ttbar"
         "ttbar",
         "dyjets",
         "wjets",
         "diboson",
+        "electroweak_boson",
+        "singletop",
+        "triboson",
     ]
-    available_eras = ["2016", "2017", "2018"]
+    available_eras = ["2018", "2017", "2016"]
     available_scopes = ["vbf"]
 
     ## setup variables

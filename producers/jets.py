@@ -1,6 +1,6 @@
 from ..quantities import output as q
 from ..quantities import nanoAOD as nanoAOD
-from code_generation.producer import Producer, ProducerGroup
+from code_generation.producer import Producer, ProducerGroup, Filter
 
 ####################
 # Set of producers used for selection possible good jets
@@ -202,16 +202,7 @@ BJetCollection = ProducerGroup(
     subproducers=[GoodBJetsWithVeto],
 )
 
-JetSelection = Producer(
-        name="JetSelection",
-        call="topreco::JetSelectionVbfScope({df}, {input}, {output})",
-        input=[
-            q.njets,
-            q.nbtag,
-        ],
-        output=None,
-        scopes=["vbf"],
-)
+
 
 ##########################
 # Basic Jet Quantities
