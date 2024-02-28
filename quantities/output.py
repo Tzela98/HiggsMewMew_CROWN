@@ -216,6 +216,8 @@ id_wgt_mu_1 = Quantity("id_wgt_mu_1")
 id_wgt_mu_2 = Quantity("id_wgt_mu_2")
 iso_wgt_mu_1 = Quantity("iso_wgt_mu_1")
 iso_wgt_mu_2 = Quantity("iso_wgt_mu_2")
+trg_wgt_mu_1 = Quantity("trg_wgt_mu_1")
+trg_wgt_mu_2 = Quantity("trg_wgt_mu_2")
 
 # Jet variables (from tau analysis)
 

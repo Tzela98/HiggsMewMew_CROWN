@@ -10,6 +10,7 @@ from .producers import jetselection as jetselection
 from .producers import pairquantities as pairquantities
 from .producers import pairselection as pairselection
 from .producers import scalefactors as scalefactors
+from .producers import triggers as triggers
 from .quantities import nanoAOD as nanoAOD
 from .quantities import output as q
 from code_generation.configuration import Configuration
@@ -222,6 +223,40 @@ def build_config(
         },
     )
 
+    # muon trigger SF settings from embedding measurements
+    configuration.add_config_parameters(
+        ["vbf"],
+        {
+            "muon_trg_sf_file": "data/jsonpog-integration/POG/MUO/2018_UL/output_schemaV2.json",
+            "muon_trg_sf_name": "NUM_IsoMu24_DEN_LooseRelIso_and_MediumID",
+	    "muon_sf_trg_variation": "nominal",
+            "muon_sf_year_id": EraModifier(
+                {
+                    "2016": "2016postVFP_UL",
+                    "2017": "2017_UL",
+                    "2018": "2018_UL",
+                }
+            ),
+            "singlemuon_trigger": EraModifier(
+                {
+                    "2018": [
+                        {
+                            "flagname": "trg_single_mu24",
+                            "hlt_path": "HLT_IsoMu24",
+                            "ptcut": 25,
+                            "etacut": 2.5,
+                            "filterbit": 3,
+                            "trigger_particle_id": 13,
+                            "max_deltaR_triggermatch": 0.4,
+                        },
+		    ],
+		}
+	    ),
+
+        },
+    )
+
+
     ## all scopes misc settings
     configuration.add_config_parameters(
         scopes,
@@ -264,9 +299,10 @@ def build_config(
             jets.JetMassCorrection,
 	    jets.GoodJets,
 	    jets.GoodBJets,
-            scalefactors.MuonIDIso_SF,
+            scalefactors.MuonIDIsoTrg_SF,
 	    scalefactors.btagging_SF,
             jetselection.JetSelectionFilter,
+	    triggers.MuMuGenerateSingleMuonTriggerFlags,
         ],
     )
 
@@ -292,7 +328,7 @@ def build_config(
         RemoveProducer(
             producers=[
                 genparticles.MMGenDiTauPairQuantities,
-                scalefactors.MuonIDIso_SF,
+                scalefactors.MuonIDIsoTrg_SF,
 		scalefactors.btagging_SF,
 		jets.JetPtCorrection,
             ],
@@ -367,6 +403,9 @@ def build_config(
             q.id_wgt_mu_2,
             q.iso_wgt_mu_1,
             q.iso_wgt_mu_2,
+            q.trg_wgt_mu_1,
+            q.trg_wgt_mu_2,
+	    triggers.MuMuGenerateSingleMuonTriggerFlags.output_group,
 	    
         ],
     )

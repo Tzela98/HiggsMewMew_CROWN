@@ -30,6 +30,13 @@ Muon_1_ID_SF = Producer(
     output=[q.id_wgt_mu_1],
     scopes=["mt", "mm", "vbf"],
 )
+Muon_1_Trg_SF = Producer(
+    name="MuonTrg_SF",
+    call='scalefactor::muon::trg({df}, {input}, "{muon_sf_trg_variation}", {output}, "{muon_trg_sf_file}", "{muon_trg_sf_name}")',
+    input=[q.pt_1, q.eta_1],
+    output=[q.trg_wgt_mu_1],
+    scopes=["mt", "mm", "vbf"],
+)
 Muon_1_Iso_SF = Producer(
     name="MuonIso_SF",
     call='scalefactor::muon::iso({df}, {input}, "{muon_sf_year_id}", "{muon_sf_varation}", {output}, "{muon_sf_file}", "{muon_iso_sf_name}")',
@@ -58,6 +65,13 @@ Muon_2_ID_SF = Producer(
     output=[q.id_wgt_mu_2],
     scopes=["em", "mm", "vbf"],
 )
+Muon_2_Trg_SF = Producer(
+    name="MuonTrg_SF",
+    call='scalefactor::muon::trg({df}, {input}, "{muon_sf_trg_variation}", {output}, "{muon_trg_sf_file}", "{muon_trg_sf_name}")',
+    input=[q.pt_2, q.eta_2],
+    output=[q.trg_wgt_mu_2],
+    scopes=["mt", "mm", "vbf"],
+)
 Muon_2_Iso_SF = Producer(
     name="MuonIso_SF",
     call='scalefactor::muon::iso({df}, {input}, "{muon_sf_year_id}", "{muon_sf_varation}", {output}, "{muon_sf_file}", "{muon_iso_sf_name}")',
@@ -65,8 +79,9 @@ Muon_2_Iso_SF = Producer(
     output=[q.iso_wgt_mu_2],
     scopes=["em", "mm","vbf"],
 )
-MuonIDIso_SF = ProducerGroup(
-    name="MuonIDIso_SF",
+
+MuonIDIsoTrg_SF = ProducerGroup(
+    name="MuonIDIsoTrg_SF",
     call=None,
     input=None,
     output=None,
@@ -91,6 +106,8 @@ MuonIDIso_SF = ProducerGroup(
             Muon_1_Iso_SF,
             Muon_2_ID_SF,
             Muon_2_Iso_SF,
+            Muon_1_Trg_SF,
+            Muon_2_Trg_SF,
         ],
     },
 )
