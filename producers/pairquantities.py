@@ -11,129 +11,209 @@ pt_1 = Producer(
     call="quantities::pt({df}, {output}, {input})",
     input=[q.p4_1],
     output=[q.pt_1],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 pt_2 = Producer(
     name="pt_2",
     call="quantities::pt({df}, {output}, {input})",
     input=[q.p4_2],
     output=[q.pt_2],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 eta_1 = Producer(
     name="eta_1",
     call="quantities::eta({df}, {output}, {input})",
     input=[q.p4_1],
     output=[q.eta_1],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 eta_2 = Producer(
     name="eta_2",
     call="quantities::eta({df}, {output}, {input})",
     input=[q.p4_2],
     output=[q.eta_2],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 phi_1 = Producer(
     name="phi_1",
     call="quantities::phi({df}, {output}, {input})",
     input=[q.p4_1],
     output=[q.phi_1],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 phi_2 = Producer(
     name="phi_2",
     call="quantities::phi({df}, {output}, {input})",
     input=[q.p4_2],
     output=[q.phi_2],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 mass_1 = Producer(
     name="mass_1",
     call="quantities::mass({df}, {output}, {input})",
     input=[q.p4_1],
     output=[q.mass_1],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 mass_2 = Producer(
     name="mass_2",
     call="quantities::mass({df}, {output}, {input})",
     input=[q.p4_2],
     output=[q.mass_2],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 m_vis = Producer(
     name="m_vis",
     call="quantities::m_vis({df}, {output}, {input_vec})",
     input=[q.p4_1, q.p4_2],
     output=[q.m_vis],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 pt_vis = Producer(
     name="pt_vis",
     call="quantities::pt_vis({df}, {output}, {input_vec})",
     input=[q.p4_1, q.p4_2],
     output=[q.pt_vis],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
+
 ####################
-# Set of channel specific producers
+# Set of electron quantity producers
 ####################
+
+ele_pt_1 = Producer(
+    name="ele_pt_1",
+    call="quantities::pt({df}, {output}, {input})",
+    input=[q.ele_p4_1],
+    output=[q.ele_pt_1],
+    scopes=["vbf", "zh", "wh"],
+)
+
+ele_pt_2 = Producer(
+    name="ele_pt_2",
+    call="quantities::pt({df}, {output}, {input})",
+    input=[q.ele_p4_2],
+    output=[q.ele_pt_2],
+    scopes=["vbf", "zh", "wh"],
+)
+
+ele_eta_1 = Producer(
+    name="ele_eta_1",
+    call="quantities::eta({df}, {output}, {input})",
+    input=[q.ele_p4_1],
+    output=[q.ele_eta_1],
+    scopes=["vbf", "zh", "wh"],
+)
+ele_eta_2 = Producer(
+    name="ele_eta_2",
+    call="quantities::eta({df}, {output}, {input})",
+    input=[q.ele_p4_2],
+    output=[q.ele_eta_2],
+    scopes=["vbf", "zh", "wh"],
+)
+ele_phi_1 = Producer(
+    name="ele_phi_1",
+    call="quantities::phi({df}, {output}, {input})",
+    input=[q.ele_p4_1],
+    output=[q.ele_phi_1],
+    scopes=["vbf", "zh", "wh"],
+)
+ele_phi_2 = Producer(
+    name="ele_phi_2",
+    call="quantities::phi({df}, {output}, {input})",
+    input=[q.ele_p4_2],
+    output=[q.ele_phi_2],
+    scopes=["vbf", "zh", "wh"],
+)
+ele_mass_1 = Producer(
+    name="ele_mass_1",
+    call="quantities::mass({df}, {output}, {input})",
+    input=[q.ele_p4_1],
+    output=[q.ele_mass_1],
+    scopes=["vbf", "zh", "wh"],
+)
+ele_mass_2 = Producer(
+    name="ele_mass_2",
+    call="quantities::mass({df}, {output}, {input})",
+    input=[q.ele_p4_2],
+    output=[q.ele_mass_2],
+    scopes=["vbf", "zh", "wh"],
+)
+ele_m_vis = Producer(
+    name="ele_m_vis",
+    call="quantities::m_vis({df}, {output}, {input_vec})",
+    input=[q.ele_p4_1, q.ele_p4_2],
+    output=[q.ele_m_vis],
+    scopes=["vbf", "zh", "wh"],
+)
+ele_pt_vis = Producer(
+    name="ele_pt_vis",
+    call="quantities::pt_vis({df}, {output}, {input_vec})",
+    input=[q.ele_p4_1, q.ele_p4_2],
+    output=[q.ele_pt_vis],
+    scopes=["vbf", "zh", "wh"],
+)
+
+####################
+# Set of channel specific producers for muons
+####################
+
+
 muon_dxy_1 = Producer(
     name="muon_dxy_1",
     call="quantities::dxy({df}, {output}, 0, {input})",
     input=[q.dileptonpair, nanoAOD.Muon_dxy],
     output=[q.dxy_1],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 muon_dxy_2 = Producer(
     name="muon_dxy_2",
     call="quantities::dxy({df}, {output}, 1, {input})",
     input=[q.dileptonpair, nanoAOD.Muon_dxy],
     output=[q.dxy_2],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 muon_dz_1 = Producer(
     name="muon_dz_1",
     call="quantities::dz({df}, {output}, 0, {input})",
     input=[q.dileptonpair, nanoAOD.Muon_dz],
     output=[q.dz_1],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 muon_dz_2 = Producer(
     name="muon_dz_2",
     call="quantities::dz({df}, {output}, 1, {input})",
     input=[q.dileptonpair, nanoAOD.Muon_dz],
     output=[q.dz_2],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 muon_q_1 = Producer(
     name="muon_q_1",
     call="quantities::charge({df}, {output}, 0, {input})",
     input=[q.dileptonpair, nanoAOD.Muon_charge],
     output=[q.q_1],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 muon_q_2 = Producer(
     name="muon_q_2",
     call="quantities::charge({df}, {output}, 1, {input})",
     input=[q.dileptonpair, nanoAOD.Muon_charge],
     output=[q.q_2],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 muon_iso_1 = Producer(
     name="muon_iso_1",
     call="quantities::isolation({df}, {output}, 0, {input})",
     input=[q.dileptonpair, nanoAOD.Muon_iso],
     output=[q.iso_1],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 muon_iso_2 = Producer(
     name="muon_iso_2",
     call="quantities::isolation({df}, {output}, 1, {input})",
     input=[q.dileptonpair, nanoAOD.Muon_iso],
     output=[q.iso_2],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 
 UnrollMuLV1 = ProducerGroup(
@@ -141,7 +221,7 @@ UnrollMuLV1 = ProducerGroup(
     call=None,
     input=None,
     output=None,
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
     subproducers=[
         pt_1,
         eta_1,
@@ -158,7 +238,7 @@ UnrollMuLV2 = ProducerGroup(
     call=None,
     input=None,
     output=None,
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
     subproducers=[
         pt_2,
         eta_2,
@@ -176,9 +256,104 @@ pt_dijet = Producer(
     call="quantities::pt_dijet({df}, {output}, {input})",
     input=[q.jet_p4_1, q.jet_p4_2],
     output=[q.pt_dijet],
-    scopes=["vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 
+####################
+# Set of channel specific producers for electrons
+####################
+
+electron_dxy_1 = Producer(
+    name="electron_dxy_1",
+    call="quantities::dxy({df}, {output}, 0, {input})",
+    input=[q.dileptonpair, nanoAOD.Electron_dxy],
+    output=[q.ele_dxy_1],
+    scopes=["vbf", "zh", "wh"],
+)
+electron_dxy_2 = Producer(
+    name="electron_dxy_2",
+    call="quantities::dxy({df}, {output}, 1, {input})",
+    input=[q.dileptonpair, nanoAOD.Electron_dxy],
+    output=[q.ele_dxy_2],
+    scopes=["vbf", "zh", "wh"],
+)
+electron_dz_1 = Producer(
+    name="electron_dz_1",
+    call="quantities::dz({df}, {output}, 0, {input})",
+    input=[q.dileptonpair, nanoAOD.Electron_dz],
+    output=[q.ele_dz_1],
+    scopes=["vbf", "zh", "wh"],
+)
+electron_dz_2 = Producer(
+    name="electron_dz_2",
+    call="quantities::dz({df}, {output}, 1, {input})",
+    input=[q.dileptonpair, nanoAOD.Electron_dz],
+    output=[q.ele_dz_2],
+    scopes=["vbf", "zh", "wh"],
+)
+electron_q_1 = Producer(
+    name="electron_q_1",
+    call="quantities::charge({df}, {output}, 0, {input})",
+    input=[q.dileptonpair, nanoAOD.Electron_charge],
+    output=[q.ele_q_1],
+    scopes=["vbf", "zh", "wh"],
+)
+electron_q_2 = Producer(
+    name="electron_q_2",
+    call="quantities::charge({df}, {output}, 1, {input})",
+    input=[q.dileptonpair, nanoAOD.Electron_charge],
+    output=[q.ele_q_2],
+    scopes=["vbf", "zh", "wh"],
+)
+electron_iso_1 = Producer(
+    name="electron_iso_1",
+    call="quantities::isolation({df}, {output}, 0, {input})",
+    input=[q.dileptonpair, nanoAOD.Electron_iso],
+    output=[q.ele_iso_1],
+    scopes=["vbf", "zh", "wh"],
+)
+electron_iso_2 = Producer(
+    name="electron_iso_2",
+    call="quantities::isolation({df}, {output}, 1, {input})",
+    input=[q.dileptonpair, nanoAOD.Electron_iso],
+    output=[q.ele_iso_2],
+    scopes=["vbf", "zh", "wh"],
+)
+
+UnrollElLV1 = ProducerGroup(
+    name="UnrollElLV1",
+    call=None,
+    input=None,
+    output=None,
+    scopes=["vbf", "zh", "wh"],
+    subproducers=[
+        ele_pt_1,
+        ele_eta_1,
+        ele_phi_1,
+        ele_mass_1,
+        electron_dxy_1,
+        electron_dz_1,
+        electron_q_1,
+        electron_iso_1,
+    ],
+)
+UnrollElLV2 = ProducerGroup(
+    name="UnrollElLV2",
+    call=None,
+    input=None,
+    output=None,
+    scopes=["vbf", "zh", "wh"],
+    subproducers=[
+        ele_pt_2,
+        ele_eta_2,
+        ele_phi_2,
+        ele_mass_2,
+        electron_dxy_2,
+        electron_dz_2,
+        electron_q_2,
+        electron_iso_2,
+    ],
+)
 
 #####################
 # Producer Groups
@@ -199,12 +374,26 @@ MuMuPairQuantities = ProducerGroup(
     call=None,
     input=None,
     output=None,
-    scopes=["vbf"],
+    scopes=["vbf", "zh", "wh"],
     subproducers=[
         UnrollMuLV1,
         UnrollMuLV2,
         m_vis,
         pt_vis,
+    ],
+)
+
+ElElPairQuantities = ProducerGroup(
+    name="ElElPairQuantities",
+    call=None,
+    input=None,
+    output=None,
+    scopes=["zh"],
+    subproducers=[
+        UnrollElLV1,
+        UnrollElLV2,
+        ele_m_vis,
+        ele_pt_vis,
     ],
 )
 

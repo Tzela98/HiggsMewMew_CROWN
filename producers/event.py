@@ -118,3 +118,13 @@ PUweights = Producer(
     output=[q.puweight],
     scopes=["global"],
 )
+
+npartons = Producer(
+    name="npartons",
+    call="basefunctions::rename<UChar_t>({df}, {input}, {output})",
+    input=[nanoAOD.LHE_Njets],
+    output=[q.npartons],
+    scopes=["global"],
+)
+
+

@@ -7,8 +7,8 @@ def run(args):
     analysis_name = "hmm"
     available_samples = [
         "data",
+		"signal",
         "embedding",
-	#"rem_ttbar"
         "ttbar",
         "dyjets",
         "wjets",
@@ -18,7 +18,7 @@ def run(args):
         "triboson",
     ]
     available_eras = ["2018", "2017", "2016"]
-    available_scopes = ["vbf"]
+    available_scopes = ["vbf", "zh", "wh", "mme"]
 
     ## setup variables
     shifts = set([shift.lower() for shift in args.shifts])

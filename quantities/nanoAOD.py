@@ -32,6 +32,11 @@ Muon_dxy = NanoAODQuantity("Muon_dxy")
 Muon_charge = NanoAODQuantity("Muon_charge")
 Muon_genMatch = NanoAODQuantity("Muon_genPartFlav")
 Muon_indexToGen = NanoAODQuantity("Muon_genPartIdx")
+Muon_id_medium = NanoAODQuantity("Muon_mediumId")
+Muon_id_tight = NanoAODQuantity("Muon_tightId")
+Muon_id_loose = NanoAODQuantity("Muon_looseId")
+Muon_isGlobal = NanoAODQuantity("Muon_isGlobal")
+Muon_isTracker = NanoAODQuantity("Muon_isTracker")
 
 """
 ---------------------------------------
@@ -63,6 +68,8 @@ Electron_mass = NanoAODQuantity("Electron_mass")
 Electron_iso = NanoAODQuantity("Electron_pfRelIso03_all")
 Electron_charge = NanoAODQuantity("Electron_charge")
 Electron_indexToGen = NanoAODQuantity("Electron_genPartIdx")
+Electron_IDWP90 = NanoAODQuantity("Electron_mvaFall17V2noIso_WP90")
+Electron_IDWP80 = NanoAODQuantity("Electron_mvaFall17V2noIso_WP80")
 
 
 """
@@ -104,6 +111,7 @@ GenParticle_pdgId = NanoAODQuantity("GenPart_pdgId")
 GenParticle_status = NanoAODQuantity("GenPart_status")
 GenParticle_statusFlags = NanoAODQuantity("GenPart_statusFlags")
 GenParticle_motherid = NanoAODQuantity("GenPart_genPartIdxMother")
+GenParticle_motheridx = NanoAODQuantity("GenPart_genPartIdxMother")
 
 ## Trigger Objects
 TriggerObject_bit = NanoAODQuantity("TrigObj_filterBits")

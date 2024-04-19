@@ -18,7 +18,7 @@ MuMuGenerateSingleMuonTriggerFlags = ExtendedVectorProducer(
         nanoAOD.TriggerObject_phi,
     ],
     output="flagname",
-    scope=["mm", "vbf"],
+    scope=["global", "vbf", "zh", "wh"],
     vec_config="singlemuon_trigger",
 )
 ElElGenerateSingleElectronTriggerFlags = ExtendedVectorProducer(

@@ -10,8 +10,7 @@ JetSelectionFilter = Filter(
             q.good_jet_collection,
             q.good_bjet_collection,
         ],
-        #output=[],
-        scopes=["vbf"],
+        scopes=["vbf", "zh", "wh"],
     subproducers=[],
 )
 

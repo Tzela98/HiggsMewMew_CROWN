@@ -21,7 +21,7 @@ JetPtCorrection = Producer(
         nanoAOD.rho,
     ],
     output=[q.Jet_pt_corrected],
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
 )
 JetPtCorrection_data = Producer(
     name="JetPtCorrection_data",
@@ -34,7 +34,7 @@ JetPtCorrection_data = Producer(
         nanoAOD.rho,
     ],
     output=[q.Jet_pt_corrected],
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
 )
 JetMassCorrection = Producer(
     name="JetMassCorrection",
@@ -45,7 +45,7 @@ JetMassCorrection = Producer(
         q.Jet_pt_corrected,
     ],
     output=[q.Jet_mass_corrected],
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
 )
 # in data and embdedded sample, we simply rename the nanoAOD jets to the jet_pt_corrected column
 RenameJetPt = Producer(
@@ -53,21 +53,21 @@ RenameJetPt = Producer(
     call="basefunctions::rename<ROOT::RVec<float>>({df}, {input}, {output})",
     input=[nanoAOD.Jet_pt],
     output=[q.Jet_pt_corrected],
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
 )
 RenameJetMass = Producer(
     name="RenameJetMass",
     call="basefunctions::rename<ROOT::RVec<float>>({df}, {input}, {output})",
     input=[nanoAOD.Jet_mass],
     output=[q.Jet_mass_corrected],
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
 )
 RenameJetsData = ProducerGroup(
     name="RenameJetsData",
     call=None,
     input=None,
     output=None,
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
     subproducers=[RenameJetPt, RenameJetMass],
 )
 JetEnergyCorrection = ProducerGroup(
@@ -75,7 +75,7 @@ JetEnergyCorrection = ProducerGroup(
     call=None,
     input=None,
     output=None,
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
     subproducers=[JetPtCorrection, JetMassCorrection],
 )
 JetEnergyCorrection_data = ProducerGroup(
@@ -83,7 +83,7 @@ JetEnergyCorrection_data = ProducerGroup(
     call=None,
     input=None,
     output=None,
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
     subproducers=[JetPtCorrection_data, JetMassCorrection],
 )
 JetPtCut = Producer(
@@ -91,49 +91,49 @@ JetPtCut = Producer(
     call="physicsobject::CutPt({df}, {input}, {output}, {min_jet_pt})",
     input=[q.Jet_pt_corrected],
     output=[],
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
 )
 BJetPtCut = Producer(
     name="BJetPtCut",
     call="physicsobject::CutPt({df}, {input}, {output}, {min_bjet_pt})",
     input=[q.Jet_pt_corrected],
     output=[],
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
 )
 JetEtaCut = Producer(
     name="JetEtaCut",
     call="physicsobject::CutEta({df}, {input}, {output}, {max_jet_eta})",
     input=[nanoAOD.Jet_eta],
     output=[],
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
 )
 BJetEtaCut = Producer(
     name="BJetEtaCut",
     call="physicsobject::CutEta({df}, {input}, {output}, {max_bjet_eta})",
     input=[nanoAOD.Jet_eta],
     output=[],
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
 )
 JetIDCut = Producer(
     name="JetIDCut",
     call="physicsobject::jet::CutID({df}, {output}, {input}, {jet_id})",
     input=[nanoAOD.Jet_ID],
     output=[q.jet_id_mask],
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
 )
 JetPUIDCut = Producer(
     name="JetPUIDCut",
     call="physicsobject::jet::CutPUID({df}, {output}, {input}, {jet_puid}, {jet_puid_max_pt})",
     input=[nanoAOD.Jet_PUID, q.Jet_pt_corrected],
     output=[q.jet_puid_mask],
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
 )
 BTagCut = Producer(
     name="BTagCut",
     call="physicsobject::jet::CutRawID({df}, {input}, {output}, {btag_cut})",
     input=[nanoAOD.BJet_discriminator],
     output=[],
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
 )
 GoodJets = ProducerGroup(
     name="GoodJets",
@@ -148,7 +148,7 @@ GoodBJets = ProducerGroup(
     call="physicsobject::CombineMasks({df}, {output}, {input})",
     input=[q.jet_id_mask, q.jet_puid_mask],
     output=[q.good_bjets_mask],
-    scopes=["global", "vbf"],
+    scopes=["global", "vbf", "zh", "wh"],
     subproducers=[BJetPtCut, BJetEtaCut, BTagCut],
 )
 
@@ -164,7 +164,7 @@ VetoOverlappingJets = Producer(
     call="jet::VetoOverlappingJets({df}, {output}, {input}, {deltaR_jet_veto})",
     input=[nanoAOD.Jet_eta, nanoAOD.Jet_phi, q.p4_1, q.p4_2],
     output=[q.jet_overlap_veto_mask],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 
 GoodJetsWithVeto = ProducerGroup(
@@ -172,7 +172,7 @@ GoodJetsWithVeto = ProducerGroup(
     call="physicsobject::CombineMasks({df}, {output}, {input})",
     input=[q.good_jets_mask],
     output=[],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
     subproducers=[VetoOverlappingJets],
 )
 
@@ -181,7 +181,7 @@ GoodBJetsWithVeto = Producer(
     call="physicsobject::CombineMasks({df}, {output}, {input})",
     input=[q.good_bjets_mask, q.jet_overlap_veto_mask],
     output=[],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["global", "vbf", "zh", "wh"],
 )
 
 JetCollection = ProducerGroup(
@@ -189,7 +189,7 @@ JetCollection = ProducerGroup(
     call="jet::OrderJetsByPt({df}, {output}, {input})",
     input=[q.Jet_pt_corrected],
     output=[q.good_jet_collection],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
     subproducers=[GoodJetsWithVeto],
 )
 
@@ -198,7 +198,7 @@ BJetCollection = ProducerGroup(
     call="jet::OrderJetsByPt({df}, {output}, {input})",
     input=[q.Jet_pt_corrected],
     output=[q.good_bjet_collection],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
     subproducers=[GoodBJetsWithVeto],
 )
 
@@ -220,7 +220,7 @@ LVJet1 = Producer(
         q.Jet_mass_corrected,
     ],
     output=[q.jet_p4_1],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 LVJet2 = Producer(
     name="LVJet2",
@@ -233,84 +233,84 @@ LVJet2 = Producer(
         q.Jet_mass_corrected,
     ],
     output=[q.jet_p4_2],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 NumberOfJets = Producer(
     name="NumberOfJets",
     call="quantities::jet::NumberOfJets({df}, {output}, {input})",
     input=[q.good_jet_collection],
     output=[q.njets],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 jpt_1 = Producer(
     name="jpt_1",
     call="quantities::pt({df}, {output}, {input})",
     input=[q.jet_p4_1],
     output=[q.jpt_1],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 jpt_2 = Producer(
     name="jpt_2",
     call="quantities::pt({df}, {output}, {input})",
     input=[q.jet_p4_2],
     output=[q.jpt_2],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 jeta_1 = Producer(
     name="jeta_1",
     call="quantities::eta({df}, {output}, {input})",
     input=[q.jet_p4_1],
     output=[q.jeta_1],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 jeta_2 = Producer(
     name="jeta_2",
     call="quantities::eta({df}, {output}, {input})",
     input=[q.jet_p4_2],
     output=[q.jeta_2],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 jphi_1 = Producer(
     name="jphi_1",
     call="quantities::phi({df}, {output}, {input})",
     input=[q.jet_p4_1],
     output=[q.jphi_1],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 jphi_2 = Producer(
     name="jphi_2",
     call="quantities::phi({df}, {output}, {input})",
     input=[q.jet_p4_2],
     output=[q.jphi_2],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 jtag_value_1 = Producer(
     name="jtag_value_1",
     call="quantities::jet::btagValue({df}, {output}, {input}, 0)",
     input=[nanoAOD.BJet_discriminator, q.good_jet_collection],
     output=[q.jtag_value_1],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 jtag_value_2 = Producer(
     name="jtag_value_2",
     call="quantities::jet::btagValue({df}, {output}, {input}, 1)",
     input=[nanoAOD.BJet_discriminator, q.good_jet_collection],
     output=[q.jtag_value_2],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 mjj = Producer(
     name="jphi_2",
     call="quantities::m_vis({df}, {output}, {input_vec})",
     input=[q.jet_p4_1, q.jet_p4_2],
     output=[q.mjj],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 BasicJetQuantities = ProducerGroup(
     name="BasicJetQuantities",
     call=None,
     input=None,
     output=None,
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
     subproducers=[
         LVJet1,
         LVJet2,
@@ -343,7 +343,7 @@ LVBJet1 = Producer(
         q.Jet_mass_corrected,
     ],
     output=[q.bjet_p4_1],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 LVBJet2 = Producer(
     name="LVBJet2",
@@ -356,77 +356,77 @@ LVBJet2 = Producer(
         q.Jet_mass_corrected,
     ],
     output=[q.bjet_p4_2],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 NumberOfBJets = Producer(
     name="NumberOfBJets",
     call="quantities::jet::NumberOfJets({df}, {output}, {input})",
     input=[q.good_bjet_collection],
     output=[q.nbtag],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 bpt_1 = Producer(
     name="bpt_1",
     call="quantities::pt({df}, {output}, {input})",
     input=[q.bjet_p4_1],
     output=[q.bpt_1],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 bpt_2 = Producer(
     name="bpt_2",
     call="quantities::pt({df}, {output}, {input})",
     input=[q.bjet_p4_2],
     output=[q.bpt_2],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 beta_1 = Producer(
     name="beta_1",
     call="quantities::eta({df}, {output}, {input})",
     input=[q.bjet_p4_1],
     output=[q.beta_1],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 beta_2 = Producer(
     name="beta_2",
     call="quantities::eta({df}, {output}, {input})",
     input=[q.bjet_p4_2],
     output=[q.beta_2],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 bphi_1 = Producer(
     name="bphi_1",
     call="quantities::phi({df}, {output}, {input})",
     input=[q.bjet_p4_1],
     output=[q.bphi_1],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 bphi_2 = Producer(
     name="bphi_2",
     call="quantities::phi({df}, {output}, {input})",
     input=[q.bjet_p4_2],
     output=[q.bphi_2],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 btag_value_1 = Producer(
     name="btag_value_1",
     call="quantities::jet::btagValue({df}, {output}, {input}, 0)",
     input=[nanoAOD.BJet_discriminator, q.good_bjet_collection],
     output=[q.btag_value_1],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 btag_value_2 = Producer(
     name="btag_value_2",
     call="quantities::jet::btagValue({df}, {output}, {input}, 1)",
     input=[nanoAOD.BJet_discriminator, q.good_bjet_collection],
     output=[q.btag_value_2],
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
 )
 BasicBJetQuantities = ProducerGroup(
     name="BasicBJetQuantities",
     call=None,
     input=None,
     output=None,
-    scopes=["mt", "et", "tt", "em", "mm","vbf", "ee"],
+    scopes=["vbf", "wh", "zh"],
     subproducers=[
         LVBJet1,
         LVBJet2,

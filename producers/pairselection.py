@@ -17,8 +17,37 @@ MMPairSelection = Producer(
         q.good_muons_mask,
     ],
     output=[q.dileptonpair],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
+
+EEPairselection = Producer(
+    name="EEPairSelection",
+    call="ditau_pairselection::elel::PairSelection({df}, {input_vec}, {output}, {pairselection_min_dR})",
+    input=[
+        nanoAOD.Electron_pt,
+        nanoAOD.Electron_eta,
+        nanoAOD.Electron_phi,
+        nanoAOD.Electron_mass,
+        q.good_electrons_mask,
+    ],
+    output=[q.dielectronpair],
+    scopes=["zh"],
+)
+
+ZEEPairselection = Producer(
+    name="ZEEPairSelection",
+    call="ditau_pairselection::elel::ZBosonPairSelection({df}, {input_vec}, {output}, {pairselection_min_dR})",
+    input=[
+        nanoAOD.Electron_pt,
+        nanoAOD.Electron_eta,
+        nanoAOD.Electron_phi,
+        nanoAOD.Electron_mass,
+        q.good_electrons_mask,
+    ],
+    output=[q.dielectronpair],
+    scopes=["zh"],
+)
+
 ZMMPairSelection = Producer(
     name="MMPairSelection",
     call="ditau_pairselection::mumu::ZBosonPairSelection({df}, {input_vec}, {output}, {pairselection_min_dR})",
@@ -30,7 +59,7 @@ ZMMPairSelection = Producer(
         q.good_muons_mask,
     ],
     output=[q.dileptonpair],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 
 GoodMMPairFlag = Producer(
@@ -38,15 +67,31 @@ GoodMMPairFlag = Producer(
     call="ditau_pairselection::flagGoodPairs({df}, {output}, {input})",
     input=[q.dileptonpair],
     output=[],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 
 GoodMMPairFilter = Filter(
     name="GoodMMPairFilter",
     call='basefunctions::FilterFlagsAny({df}, "GoodMuMuPairs", {input})',
     input=[],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
     subproducers=[GoodMMPairFlag],
+)
+
+GoodEEPairFlag = Producer(
+    name="GoodEEPairFlag",
+    call="ditau_pairselection::flagGoodPairs({df}, {output}, {input})",
+    input=[q.dielectronpair],
+    output=[],
+    scopes=["zh"],
+)
+
+GoodEEPairFilter = Filter(
+    name="GoodEEPairFilter",
+    call='basefunctions::FilterFlagsAny({df}, "GoodEEPairs", {input})',
+    input=[],
+    scopes=["zh"],
+    subproducers=[GoodEEPairFlag],
 )
 
 
@@ -61,7 +106,7 @@ LVMu1 = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_1],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 LVMu2 = Producer(
     name="LVMu2",
@@ -74,7 +119,34 @@ LVMu2 = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_2],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
+)
+
+LVEl1 = Producer(
+    name="LVEl1",
+    call="lorentzvectors::build({df}, {input_vec}, 0, {output})",
+    input=[
+        q.dileptonpair,
+        nanoAOD.Electron_pt,
+        nanoAOD.Electron_eta,
+        nanoAOD.Electron_phi,
+        nanoAOD.Electron_mass,
+    ],
+    output=[q.ele_p4_1],
+    scopes=["vbf", "zh", "wh"],
+)
+LVEl2 = Producer(
+    name="LVEl2",
+    call="lorentzvectors::build({df}, {input_vec}, 1, {output})",
+    input=[
+        q.dileptonpair,
+        nanoAOD.Electron_pt,
+        nanoAOD.Electron_eta,
+        nanoAOD.Electron_phi,
+        nanoAOD.Electron_mass,
+    ],
+    output=[q.ele_p4_2],
+    scopes=["vbf", "zh", "wh"],
 )
 
 ## uncorrected versions of all particles, used for MET propagation
@@ -89,7 +161,7 @@ LVMu1Uncorrected = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_1_uncorrected],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )
 LVMu2Uncorrected = Producer(
     name="LVMu2Uncorrected",
@@ -102,5 +174,5 @@ LVMu2Uncorrected = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_2_uncorrected],
-    scopes=["mm","vbf"],
+    scopes=["vbf", "zh", "wh"],
 )

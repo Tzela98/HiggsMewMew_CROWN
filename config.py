@@ -5,16 +5,20 @@ from typing import List
 from .producers import event as event
 from .producers import genparticles as genparticles
 from .producers import muons as muons
+from .producers import electrons as electrons
 from .producers import jets as jets
+from .producers import met as met
 from .producers import jetselection as jetselection
 from .producers import pairquantities as pairquantities
 from .producers import pairselection as pairselection
+from .producers import triplequantities as triplequantities
+from .producers import tripleselection as tripleselection
 from .producers import scalefactors as scalefactors
 from .producers import triggers as triggers
 from .quantities import nanoAOD as nanoAOD
 from .quantities import output as q
 from code_generation.configuration import Configuration
-from code_generation.modifiers import EraModifier
+from code_generation.modifiers import EraModifier, SampleModifier
 from code_generation.rules import RemoveProducer
 from code_generation.systematics import SystematicShift
 
@@ -94,32 +98,50 @@ def build_config(
             ),
         },
     )
+
     # muon base selection:
     configuration.add_config_parameters(
         "global",
-        {
-            "min_muon_pt": 20.0,
-            "max_muon_eta": 2.4,
-            "max_muon_dxy": 0.02,
-            "max_muon_dz": 0.24,
-            "muon_id": "Muon_mediumId",
-            "muon_iso_cut": 0.25,
-        },
-    )
-    
-    # vbf scope muon and jet selection
+		{
+			"min_muon_pt": 20.0,
+			"max_muon_eta": 2.4,
+			"max_muon_dxy": 0.02,
+			"max_muon_dz": 0.24,
+			"muon_id": "Muon_mediumId",
+			"muon_iso_cut": 0.25,
+			"muon_trg_cut": 1,
+		},
+	)
+
+	# electron base selection:
     configuration.add_config_parameters(
-        ["vbf"],
-        {
-            "muon_index_in_pair": 0,
-            "second_muon_index_in_pair": 1,
-            "min_muon_pt": 20.0,
-            "max_muon_eta": 2.4,
-            "muon_iso_cut": 0.25,
-            "min_jet_pt": 25,
+		"global",
+		{
+			"min_ele_pt": 20,
+			"max_ele_eta": 2.5,
+			"max_ele_dxy": 0.045,
+            "max_ele_dz": 0.2,
+            "max_ele_iso": 0.3,
+            "ele_id": "Electron_mvaFall17V2noIso_WP90",
+		},
+	)
+
+	# jet base selection:
+    configuration.add_config_parameters(
+		"global",
+		{
+			"min_jet_pt": 25,
             "max_jet_eta": 4.7,
-            "min_njets": 2,
-            "min_nbjets": 0,
+            "jet_id": 2,  # default: 2==pass tight ID and fail tightLepVeto
+            "jet_puid": EraModifier(
+                {
+                    "2016preVFP": 1,  # 0==fail, 1==pass(loose), 3==pass(loose,medium), 7==pass(loose,medum,tight)
+                    "2016postVFP": 1,  # 0==fail, 1==pass(loose), 3==pass(loose,medium), 7==pass(loose,meium,tight)
+                    "2017": 4,  # 0==fail, 4==pass(loose), 6==pass(loose,medium), 7==pass(loose,medium,tiht)
+                    "2018": 4,  # 0==fail, 4==pass(loose), 6==pass(loose,medium), 7==pass(loose,medium,tiht)
+                }
+			),
+            "jet_puid_max_pt": 50,  # recommended to apply puID only for jets below 50 GeV
             "jet_reapplyJES": False,
             "jet_jes_sources": '{""}',
             "jet_jes_shift": 0,
@@ -150,17 +172,14 @@ def build_config(
                 }
             ),
             "jet_jec_algo": '"AK4PFchs"',
-            "jet_id": 2,  # default: 2==pass tight ID and fail tightLepVeto
-            "jet_puid": EraModifier(
-                {
-                    "2016preVFP": 1,  # 0==fail, 1==pass(loose), 3==pass(loose,medium), 7==pass(loose,medium,tight)
-                    "2016postVFP": 1,  # 0==fail, 1==pass(loose), 3==pass(loose,medium), 7==pass(loose,medium,tight)
-                    "2017": 4,  # 0==fail, 4==pass(loose), 6==pass(loose,medium), 7==pass(loose,medium,tight)
-                    "2018": 4,  # 0==fail, 4==pass(loose), 6==pass(loose,medium), 7==pass(loose,medium,tight)
-                }
-            ),
-            "jet_puid_max_pt": 50,  # recommended to apply puID only for jets below 50 GeV
-                        "min_bjet_pt": 20,
+		},
+	)
+	
+	#bjet base selection
+    configuration.add_config_parameters(
+		"global",
+		{
+			"min_bjet_pt": 20,
             "max_bjet_eta": EraModifier(
                 {
                     "2016preVFP": 2.5,
@@ -171,19 +190,18 @@ def build_config(
             ),
             "btag_cut": EraModifier(  # medium
                 {
-                    "2016preVFP": 0.2598,  # taken from https://twiki.cern.ch/twiki/bin/view/CMS/BtagRecommendation106XUL16preVFP
-                    "2016postVFP": 0.2489,  # taken from https://twiki.cern.ch/twiki/bin/view/CMS/BtagRecommendation106XUL16postVFP
+                    "2016preVFP": 0.2598,  # taken from https://twiki.cern.ch/twiki/bin/view/CMS/BtagRecomendation106XUL16preVFP
+                    "2016postVFP": 0.2489,  # taken from https://twiki.cern.ch/twiki/bin/view/CMS/BtagRecmmendation106XUL16postVFP
                     "2017": 0.3040,
                     "2018": 0.2783,
                 }
             ),
-
-        },
-    )
+		},
+	)
 
     #bjet scale factors
     configuration.add_config_parameters(
-	scopes,
+    scopes,
         {
             "btag_sf_file": EraModifier(
                 {
@@ -198,10 +216,124 @@ def build_config(
         },
     )
 
+    
+    # vbf scope selection
+    configuration.add_config_parameters(
+        ["vbf"],
+        {
+            "muon_index_in_pair": 0,
+            "second_muon_index_in_pair": 1,
+            "min_muon_pt": 20.0,
+            "max_muon_eta": 2.4,
+			"max_muon_dxy": 0.02,
+			"max_muon_dz": 0.24,
+			"muon_id": "Muon_mediumId",
+			"muon_iso_cut": 0.25,
+			"muon_trg_cut": 1,
+            "min_njets": 2,
+            "min_nbjets": 0,
+        },
+    )
+	
+	# WH scope selection
+    configuration.add_config_parameters(
+        ["wh"],
+        {
+            "muon_index_in_triple": 0,
+            "second_muon_index_in_triple": 1,
+            "electron_index_in_triple": 2,
+            "min_muon_pt": 26.0,
+            "max_muon_eta": 2.4,
+			"muon_id": "Muon_mediumId",
+			"ele_id": "Electron_mvaFall17V2noIso_WP90",
+            "muon_iso_cut": 0.25,
+			"muon_trg_cut": 1,
+            "min_njets": 0,
+            "min_nbjets": 0,
+            "min_ele_pt": 20,
+			"max_ele_eta": 2.5,
+            "max_ele_iso": 0.3,
+            "p4_23_miss_sf": 0.69,
+        },
+    )
+
+	# ZH scope selection
+    configuration.add_config_parameters(
+		["zh"],
+		{
+			"muon_index_in_pair": 0,
+            "second_muon_index_in_pair": 1,
+            "min_muon_pt": 26.0,
+            "max_muon_eta": 2.4,
+			"max_muon_dxy": 0.02,
+			"max_muon_dz": 0.24,
+			"muon_id": "Muon_mediumId",
+			"muon_iso_cut": 0.25,
+			"muon_trg_cut": 1,
+            "min_njets": 2,
+            "min_nbjets": 0,
+            "min_ele_pt": 20,
+			"max_ele_eta": 2.5,
+			"max_ele_dxy": 0.045,
+            "max_ele_dz": 0.2,
+            "max_ele_iso": 0.3,
+            "ele_id": "Electron_mvaFall17V2noIso_WP90",
+
+		},
+	)
+
+    configuration.add_config_parameters(
+        scopes,
+        {
+            "propagateLeptons": SampleModifier(
+                {"data": False, "embedding": False},
+                default=True,
+            ),
+            "propagateJets": SampleModifier(
+                {"data": False, "embedding": False},
+                default=True,
+            ),
+            "recoil_corrections_file": EraModifier(
+                {
+                    "2016preVFP": "data/recoil_corrections/Type1_PuppiMET_2016.root",  # These are likely from Legacy data sets, therefore no difference in pre and postVFP
+                    "2016postVFP": "data/recoil_corrections/Type1_PuppiMET_2016.root",  # These are likely from Legacy data sets, therefore no difference in pre and postVFP
+                    "2017": "data/recoil_corrections/Type1_PuppiMET_2017.root",
+                    "2018": "data/recoil_corrections/Type1_PuppiMET_2018.root",
+                }
+            ),
+            "recoil_systematics_file": EraModifier(
+                {
+                    "2016preVFP": "data/recoil_corrections/PuppiMETSys_2016.root",  # These are likely from Legacy data sets, therefore no difference in pre and postVFP
+                    "2016postVFP": "data/recoil_corrections/PuppiMETSys_2016.root",  # These are likely from Legacy data sets, therefore no difference in pre and postVFP
+                    "2017": "data/recoil_corrections/PuppiMETSys_2017.root",
+                    "2018": "data/recoil_corrections/PuppiMETSys_2018.root",
+                }
+            ),
+            "applyRecoilCorrections": SampleModifier(
+                {
+                    "wjets": True,
+                    "dyjets": True,
+                    "electroweak_boson": True,
+                    "ggh_htautau": True,
+                    "vbf_htautau": True,
+                    "rem_htautau": True,
+                    "ggh_hww": True,
+                    "vbf_hww": True,
+                    "rem_VH": True,
+                },
+                default=False,
+            ),
+            "apply_recoil_resolution_systematic": False,
+            "apply_recoil_response_systematic": False,
+            "recoil_systematic_shift_up": False,
+            "recoil_systematic_shift_down": False,
+            "min_jetpt_met_propagation": 15,
+        },
+    )
 
     # Muon scale factors configuration
     configuration.add_config_parameters(
-        ["vbf"],
+        scopes,
         {
             "muon_sf_file": EraModifier(
                 {
@@ -225,11 +357,15 @@ def build_config(
 
     # muon trigger SF settings from embedding measurements
     configuration.add_config_parameters(
-        ["vbf"],
+        scopes,
         {
-            "muon_trg_sf_file": "data/jsonpog-integration/POG/MUO/2018_UL/output_schemaV2.json",
+            "muon_trg_sf_file": "data/jsonpog-integration/POG/MUO/2018_UL/muon_Z_trigger_schemaV2_sf.json",
             "muon_trg_sf_name": "NUM_IsoMu24_DEN_LooseRelIso_and_MediumID",
-	    "muon_sf_trg_variation": "nominal",
+			"muon_sf_trg_variation": "nominal",
+            "muon_trg_eff_file": "data/jsonpog-integration/POG/MUO/2018_UL/muon_Z_trigger_schemaV2_eff.json",
+            "muon_trg_eff_name": "NUM_IsoMu24_DEN_LooseRelIso_and_MediumID",
+            "muon_trg_effdt_variation": "dteff",
+            "muon_trg_effmc_variation": "mceff",
             "muon_sf_year_id": EraModifier(
                 {
                     "2016": "2016postVFP_UL",
@@ -249,9 +385,9 @@ def build_config(
                             "trigger_particle_id": 13,
                             "max_deltaR_triggermatch": 0.4,
                         },
-		    ],
-		}
-	    ),
+					],
+				}
+			),
 
         },
     )
@@ -263,6 +399,8 @@ def build_config(
         {
             "deltaR_jet_veto": 0.5,
             "pairselection_min_dR": 0.5,
+            "tripleselection_min_dR_lep1lep1": 0.5,
+            "tripleselection_min_dR_lep1lep2": 0.5,
         },
     )
 
@@ -272,37 +410,108 @@ def build_config(
             event.SampleFlags,
             event.PUweights,
             event.Lumi,
+			event.npartons,
             event.MetFilter,
             muons.BaseMuons,
+			electrons.BaseElectrons,
+            electrons.RenameElectronPt,
+            jets.JetEnergyCorrection,
+			jets.GoodJets,
+			jets.GoodBJets,
+            met.MetBasics,
         ],
     )
 
+    # common producers for all scopes
+    '''
+    configuration.add_producers(
+        scopes,
+        [
+            jets.JetCollection,
+            jets.BasicJetQuantities,
+            jets.BJetCollection,
+            jets.BasicBJetQuantities,
+            scalefactors.btagging_SF,
+        ],
+    )
+    '''
 
     configuration.add_producers(
         "vbf",
         [
             muons.GoodMuons,
             muons.NumberOfGoodMuons,
-            pairselection.ZMMPairSelection,
+            pairselection.MMPairSelection,
             pairselection.GoodMMPairFilter,
             pairselection.LVMu1,
             pairselection.LVMu2,
-	    pairquantities.MuMuPairQuantities,
-	    pairquantities.pt_dijet,
+			pairquantities.MuMuPairQuantities,
+			pairquantities.pt_dijet,
             genparticles.MMGenDiTauPairQuantities,
             jets.JetCollection,
             jets.BasicJetQuantities,
             jets.BJetCollection,
-	    jets.BasicBJetQuantities,
-            jets.JetPtCorrection,
-	    jets.JetPtCorrection_data,
-            jets.JetMassCorrection,
-	    jets.GoodJets,
-	    jets.GoodBJets,
+            jets.BasicBJetQuantities,
+            scalefactors.btagging_SF,
+			jets.JetPtCorrection_data,
             scalefactors.MuonIDIsoTrg_SF,
-	    scalefactors.btagging_SF,
+            scalefactors.MuonTrg_Eff,
+            scalefactors.MuonTrg_SF,
             jetselection.JetSelectionFilter,
-	    triggers.MuMuGenerateSingleMuonTriggerFlags,
+			triggers.MuMuGenerateSingleMuonTriggerFlags,
+        ],
+    )
+
+    configuration.add_producers(
+		"wh",
+		[
+			muons.GoodMuons,
+            muons.NumberOfGoodMuons,
+            genparticles.GenMatching,
+            genparticles.MMEGenTripleQuantities,
+            electrons.NumberOfGoodElectrons,
+            electrons.GoodElectrons,
+            met.MetCorrections,
+            met.PFMetCorrections,
+            triplequantities.mt,
+            tripleselection.GoodTripleFilter,
+            tripleselection.MMETripleSelection,
+            tripleselection.LVMu2,
+            tripleselection.LVMu1,
+            tripleselection.LVEl3,
+            tripleselection.LVEl3Uncorrected,
+            tripleselection.LVMu2Uncorrected,
+            tripleselection.LVMu1Uncorrected,
+            triplequantities.MMETripleQuantities,
+            scalefactors.MuonIDIsoTrg_SF,
+            scalefactors.MuonTrg_Eff,
+            scalefactors.MuonTrg_SF,
+			triggers.MuMuGenerateSingleMuonTriggerFlags,
+		],
+	)
+
+    configuration.add_producers(
+        "zh",
+        [
+            electrons.NumberOfGoodElectrons,
+            electrons.GoodElectrons,
+            muons.NumberOfGoodMuons,
+            muons.GoodMuons,
+            pairselection.MMPairSelection,
+            pairselection.GoodMMPairFilter,
+            pairselection.ZEEPairselection,
+            pairselection.GoodEEPairFilter,
+            pairselection.LVMu1,
+            pairselection.LVMu2,
+            pairselection.LVEl1,
+            pairselection.LVEl2,
+            pairquantities.MuMuPairQuantities,
+            pairquantities.ElElPairQuantities,
+            genparticles.MMGenDiTauPairQuantities,
+            scalefactors.MuonIDIsoTrg_SF,
+            scalefactors.MuonTrg_Eff,
+            scalefactors.MuonTrg_SF,
+			triggers.MuMuGenerateSingleMuonTriggerFlags,
         ],
     )
 
@@ -329,8 +538,10 @@ def build_config(
             producers=[
                 genparticles.MMGenDiTauPairQuantities,
                 scalefactors.MuonIDIsoTrg_SF,
-		scalefactors.btagging_SF,
-		jets.JetPtCorrection,
+				scalefactors.btagging_SF,
+				scalefactors.MuonTrg_Eff,
+				scalefactors.MuonTrg_SF,
+				jets.JetPtCorrection,
             ],
             samples=["data"],
         ),
@@ -342,9 +553,33 @@ def build_config(
             producers=[
                 jets.JetPtCorrection_data,
             ],
-            samples=["dyjets", "ttbar", "diboson", "electroweak_boson", "singletop", "triboson"],
+            samples=["signal", "dyjets", "ttbar", "diboson", "electroweak_boson", "singletop", "triboson"],
         ),
     )
+
+    configuration.add_modification_rule(
+        "wh",
+        RemoveProducer(
+            producers=[
+                genparticles.MMEGenTripleQuantities,
+            ],
+            samples="data",
+        ),
+    )
+
+    configuration.add_modification_rule(
+        ["zh"],
+        RemoveProducer(
+            producers=[
+                genparticles.MMGenDiTauPairQuantities,
+                scalefactors.MuonIDIsoTrg_SF,
+				scalefactors.MuonTrg_Eff,
+				scalefactors.MuonTrg_SF,
+            ],
+            samples=["data"],
+        ),
+    )
+
     
     configuration.add_outputs(
         "vbf",
@@ -357,6 +592,7 @@ def build_config(
             q.is_diboson,
             nanoAOD.run,
             q.lumi,
+			q.npartons,
             nanoAOD.event,
             q.puweight,
             q.pt_1,
@@ -366,8 +602,9 @@ def build_config(
             q.phi_1,
             q.phi_2,
             q.m_vis,
-	    q.pt_vis,
+			q.pt_vis,
             q.njets,
+			q.nmuons,
             q.jpt_1,
             q.jpt_2,
             q.jeta_1,
@@ -377,7 +614,7 @@ def build_config(
             q.jtag_value_1,
             q.jtag_value_2,
             q.mjj, 
-	    q.pt_dijet,          
+			q.pt_dijet,          
             q.nbtag,
             q.bpt_1,
             q.bpt_2,
@@ -387,7 +624,7 @@ def build_config(
             q.bphi_2,
             q.btag_value_1,
             q.btag_value_2,
-	    q.btag_weight,
+			q.btag_weight,
             q.gen_pt_1,
             q.gen_eta_1,
             q.gen_phi_1,
@@ -403,12 +640,159 @@ def build_config(
             q.id_wgt_mu_2,
             q.iso_wgt_mu_1,
             q.iso_wgt_mu_2,
-            q.trg_wgt_mu_1,
-            q.trg_wgt_mu_2,
-	    triggers.MuMuGenerateSingleMuonTriggerFlags.output_group,
-	    
+			q.trg_effdt_mu_1,
+			q.trg_effdt_mu_2,
+			q.trg_effmc_mu_1,
+			q.trg_effmc_mu_2,
+            q.trg_sf,
+			triggers.MuMuGenerateSingleMuonTriggerFlags.output_group,
         ],
     )
+	
+	# outputs for wh scope
+    configuration.add_outputs(
+		"wh",
+		[
+			q.nelectrons,
+            q.is_data,
+            q.is_embedding,
+            q.is_ttbar,
+            q.is_dyjets,
+            q.is_wjets,
+            q.is_diboson,
+            nanoAOD.run,
+            q.lumi,
+			q.npartons,
+            nanoAOD.event,
+            q.puweight,
+            q.pt_1,
+            q.pt_2,
+            q.pt_3,
+            q.eta_1,
+            q.eta_2,
+            q.eta_3,
+            q.phi_1,
+            q.phi_2,
+            q.phi_3,
+            q.mass_1,
+            q.mass_2,
+            q.mass_3,
+            q.q_1,
+            q.q_2,
+            q.q_3,
+            q.m_vis,
+			q.pt_vis,
+            q.p4_23,
+            q.p4_23_miss,
+            q.p4_123met,
+            q.met,
+            q.metphi,
+            q.pfmet,
+            q.pfmetphi,
+            q.metSumEt,
+            q.p4_H,
+            q.pt_W,
+            q.eta_vis,
+            q.phi_vis,
+            q.Lt,
+            q.deltaR_12,
+            q.deltaR_13,
+            q.deltaR_23,
+            q.deltaPhi_12,
+            q.deltaPhi_13,
+            q.deltaPhi_WH,
+            q.pt_123met,
+			q.nmuons,
+            q.gen_pt_1,
+            q.gen_eta_1,
+            q.gen_phi_1,
+            q.gen_mass_1,
+            q.gen_pdgid_1,
+            q.gen_pt_2,
+            q.gen_eta_2,
+            q.gen_phi_2,
+            q.gen_mass_2,
+            q.gen_pdgid_2,
+            q.gen_pt_3,
+            q.gen_eta_3,
+            q.gen_phi_3,
+            q.gen_mass_3,
+            q.gen_pdgid_3,
+            q.gen_m_vis,
+            q.id_wgt_mu_1,
+            q.id_wgt_mu_2,
+            q.iso_wgt_mu_1,
+            q.iso_wgt_mu_2,
+			q.trg_effdt_mu_1,
+			q.trg_effdt_mu_2,
+			q.trg_effmc_mu_1,
+			q.trg_effmc_mu_2,
+            q.trg_sf,
+			triggers.MuMuGenerateSingleMuonTriggerFlags.output_group,
+		],
+	)
+
+    # outputs for zh scope
+    configuration.add_outputs(
+        "zh",
+        [
+            q.is_data,
+            q.is_embedding,
+            q.is_ttbar,
+            q.is_dyjets,
+            q.is_wjets,
+            q.is_diboson,
+            nanoAOD.run,
+            q.lumi,
+			q.npartons,
+            nanoAOD.event,
+            q.puweight,
+            q.pt_1,
+            q.pt_2,
+            q.eta_1,
+            q.eta_2,
+            q.phi_1,
+            q.phi_2,
+            q.m_vis,
+			q.pt_vis,
+			q.nmuons,
+            q.gen_pt_1,
+            q.gen_eta_1,
+            q.gen_phi_1,
+            q.gen_mass_1,
+            q.gen_pdgid_1,
+            q.gen_pt_2,
+            q.gen_eta_2,
+            q.gen_phi_2,
+            q.gen_mass_2,
+            q.gen_pdgid_2,
+            q.gen_m_vis,
+            q.id_wgt_mu_1,
+            q.id_wgt_mu_2,
+            q.iso_wgt_mu_1,
+            q.iso_wgt_mu_2,
+			q.trg_effdt_mu_1,
+			q.trg_effdt_mu_2,
+			q.trg_effmc_mu_1,
+			q.trg_effmc_mu_2,
+            q.trg_sf,
+            q.nelectrons,
+            q.ele_pt_1,
+            q.ele_pt_2,
+            q.ele_eta_1,
+            q.ele_eta_2,
+            q.ele_phi_1,
+            q.ele_phi_2,
+            q.ele_m_vis,
+            q.ele_pt_vis,
+            q.ele_iso_1,
+            q.ele_iso_2,
+            q.ele_q_1,
+            q.ele_q_2,
+			triggers.MuMuGenerateSingleMuonTriggerFlags.output_group,
+        ],
+    )
+
 
     # add genWeight for everything but data
     if sample != "data":
