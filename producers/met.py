@@ -156,7 +156,7 @@ PropagateLeptonsToMet = Producer(
         q.p4_3,
     ],
     output=[q.met_p4_leptoncorrected],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 PropagateLeptonsToPFMet = Producer(
     name="PropagateLeptonsToPFMet",
@@ -171,7 +171,7 @@ PropagateLeptonsToPFMet = Producer(
         q.p4_3,
     ],
     output=[q.pfmet_p4_leptoncorrected],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 PropagateJetsToMet = Producer(
     name="PropagateJetsToMet",
@@ -194,7 +194,8 @@ PropagateJetsToMet = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -219,7 +220,8 @@ PropagateJetsToPFMet = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -238,7 +240,8 @@ ApplyRecoilCorrections = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -257,7 +260,8 @@ ApplyRecoilCorrectionsPFMet = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -272,7 +276,8 @@ MetPt = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -287,7 +292,8 @@ PFMetPt = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -302,7 +308,8 @@ MetPhi = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -317,7 +324,8 @@ PFMetPhi = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -332,7 +340,8 @@ MetCorrections = ProducerGroup(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
     subproducers=[
@@ -354,7 +363,8 @@ PFMetCorrections = ProducerGroup(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
     subproducers=[

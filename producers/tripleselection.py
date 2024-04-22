@@ -178,8 +178,25 @@ MMETripleSelection = Producer(
         q.base_electrons_mask,
     ],
     output=[q.leptontriple],
-    scopes=["wh"],
+    scopes=["wh_mme"],
 )
+
+MMMTripleSelection = Producer(
+    name="MMMTripleSelection",
+    call="whtautau_tripleselection::mumumu::TripleSelection({df}, {input_vec}, {output}, {tripleselection_min_dR_lep1lep1})",
+    input=[
+        nanoAOD.Muon_pt,
+        nanoAOD.Muon_eta,
+        nanoAOD.Muon_phi,
+        nanoAOD.Muon_mass,
+        nanoAOD.Muon_iso,
+        nanoAOD.Muon_charge,
+        q.good_muons_mask,
+    ],
+    output=[q.leptontriple],
+    scopes=["wh_mmm"],
+)
+
 EEMTripleSelection = Producer(
     name="EEMTripleSelection",
     call="whtautau_tripleselection::eleelemu::TripleSelection({df}, {input_vec}, {output}, {tripleselection_min_dR_lep1lep1}, {tripleselection_min_dR_lep1lep2})",
@@ -207,14 +224,14 @@ GoodTripleFlag = Producer(
     call="whtautau_tripleselection::flagGoodTriples({df}, {output}, {input})",
     input=[q.leptontriple],
     output=[],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 
 GoodTripleFilter = Filter(
     name="GoodTripleFilter",
     call='basefunctions::FilterFlagsAny({df}, "GoodTriples", {input})',
     input=[],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
     subproducers=[GoodTripleFlag],
 )
 LVMu1 = Producer(
@@ -228,7 +245,7 @@ LVMu1 = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_1],
-    scopes=["met", "mmt", "mtt", "wh"],
+    scopes=["met", "mmt", "mtt", "wh_mme", "wh_mmm"],
 )
 LVMu2 = Producer(
     name="LVMu2",
@@ -241,7 +258,7 @@ LVMu2 = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_2],
-    scopes=["emt", "mmt", "wh"],
+    scopes=["emt", "mmt", "wh_mme", "wh_mmm"],
 )
 LVMu3 = Producer(
     name="LVMu3",
@@ -254,7 +271,7 @@ LVMu3 = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_3],
-    scopes=["eem"],
+    scopes=["wh_mmm"],
 )
 LVEl2 = Producer(
     name="LVEl2",
@@ -293,7 +310,7 @@ LVEl3 = Producer(
         nanoAOD.Electron_mass,
     ],
     output=[q.p4_3],
-    scopes=["wh"],
+    scopes=["wh_mme", "wh_mmm"],
 )
 LVTau2 = Producer(
     name="LVTau2",
@@ -333,7 +350,7 @@ LVMu1Uncorrected = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_1_uncorrected],
-    scopes=["met", "mmt", "mtt", "wh"],
+    scopes=["met", "mmt", "mtt", "wh_mme", "wh_mmm"],
 )
 LVMu2Uncorrected = Producer(
     name="LVMu2Uncorrected",
@@ -346,7 +363,7 @@ LVMu2Uncorrected = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_2_uncorrected],
-    scopes=["emt", "mmt", "wh"],
+    scopes=["emt", "mmt", "wh_mme", "wh_mmm"],
 )
 LVMu3Uncorrected = Producer(
     name="LVMu3Uncorrected",
@@ -359,7 +376,7 @@ LVMu3Uncorrected = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_3_uncorrected],
-    scopes=["eem"],
+    scopes=["wh_mmm"],
 )
 LVEl2Uncorrected = Producer(
     name="LVEl2Uncorrected",
@@ -398,7 +415,7 @@ LVEl3Uncorrected = Producer(
         nanoAOD.Electron_mass,
     ],
     output=[q.p4_3_uncorrected],
-    scopes=["wh"],
+    scopes=["wh_mme", "wh_mmm"],
 )
 LVTau2Uncorrected = Producer(
     name="LVTau2Uncorrected",

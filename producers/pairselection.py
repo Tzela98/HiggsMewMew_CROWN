@@ -17,7 +17,7 @@ MMPairSelection = Producer(
         q.good_muons_mask,
     ],
     output=[q.dileptonpair],
-    scopes=["vbf", "zh", "wh"],
+    scopes=["vbf", "zh", "wh_mme"],
 )
 
 EEPairselection = Producer(
@@ -59,7 +59,7 @@ ZMMPairSelection = Producer(
         q.good_muons_mask,
     ],
     output=[q.dileptonpair],
-    scopes=["vbf", "zh", "wh"],
+    scopes=["vbf", "zh", "wh_mme"],
 )
 
 GoodMMPairFlag = Producer(
@@ -67,14 +67,14 @@ GoodMMPairFlag = Producer(
     call="ditau_pairselection::flagGoodPairs({df}, {output}, {input})",
     input=[q.dileptonpair],
     output=[],
-    scopes=["vbf", "zh", "wh"],
+    scopes=["vbf", "zh", "wh_mme"],
 )
 
 GoodMMPairFilter = Filter(
     name="GoodMMPairFilter",
     call='basefunctions::FilterFlagsAny({df}, "GoodMuMuPairs", {input})',
     input=[],
-    scopes=["vbf", "zh", "wh"],
+    scopes=["vbf", "zh", "wh_mme"],
     subproducers=[GoodMMPairFlag],
 )
 
@@ -106,7 +106,7 @@ LVMu1 = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_1],
-    scopes=["vbf", "zh", "wh"],
+    scopes=["vbf", "zh", "wh_mme"],
 )
 LVMu2 = Producer(
     name="LVMu2",
@@ -119,7 +119,7 @@ LVMu2 = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_2],
-    scopes=["vbf", "zh", "wh"],
+    scopes=["vbf", "zh", "wh_mme"],
 )
 
 LVEl1 = Producer(
@@ -133,7 +133,7 @@ LVEl1 = Producer(
         nanoAOD.Electron_mass,
     ],
     output=[q.ele_p4_1],
-    scopes=["vbf", "zh", "wh"],
+    scopes=["vbf", "zh", "wh_mme"],
 )
 LVEl2 = Producer(
     name="LVEl2",
@@ -146,7 +146,7 @@ LVEl2 = Producer(
         nanoAOD.Electron_mass,
     ],
     output=[q.ele_p4_2],
-    scopes=["vbf", "zh", "wh"],
+    scopes=["vbf", "zh", "wh_mme"],
 )
 
 ## uncorrected versions of all particles, used for MET propagation
@@ -161,7 +161,7 @@ LVMu1Uncorrected = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_1_uncorrected],
-    scopes=["vbf", "zh", "wh"],
+    scopes=["vbf", "zh", "wh_mme"],
 )
 LVMu2Uncorrected = Producer(
     name="LVMu2Uncorrected",
@@ -174,5 +174,5 @@ LVMu2Uncorrected = Producer(
         nanoAOD.Muon_mass,
     ],
     output=[q.p4_2_uncorrected],
-    scopes=["vbf", "zh", "wh"],
+    scopes=["vbf", "zh", "wh_mme"],
 )

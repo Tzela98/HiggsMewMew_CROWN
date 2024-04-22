@@ -92,28 +92,28 @@ GoodElectronPtCut = Producer(
     call="physicsobject::CutPt({df}, {input}, {output}, {min_ele_pt})",
     input=[q.Electron_pt_corrected],
     output=[],
-    scopes=["wh", "zh"],
+    scopes=["wh_mme", "zh"],
 )
 GoodElectronEtaCut = Producer(
     name="GoodElectronEtaCut",
     call="physicsobject::CutEta({df}, {input}, {output}, {max_ele_eta})",
     input=[nanoAOD.Electron_eta],
     output=[],
-    scopes=["wh", "zh"],
+    scopes=["wh_mme", "zh"],
 )
 GoodElectronIsoCut = Producer(
     name="GoodElectronIsoCut",
     call="physicsobject::electron::CutIsolation({df}, {output}, {input}, {max_ele_iso})",
     input=[nanoAOD.Electron_iso],
     output=[],
-    scopes=["wh", "zh"],
+    scopes=["wh_mme", "zh"],
 )
 GoodElectrons = ProducerGroup(
     name="GoodElectrons",
     call="physicsobject::CombineMasks({df}, {output}, {input})",
     input=[q.base_electrons_mask],
     output=[q.good_electrons_mask],
-    scopes=["wh", "zh"],
+    scopes=["wh_mme", "zh"],
     subproducers=[
         GoodElectronPtCut,
         GoodElectronEtaCut,
@@ -126,32 +126,32 @@ VetoElectrons = Producer(
     call="physicsobject::VetoCandInMask({df}, {output}, {input}, {electron_index_in_pair})",
     input=[q.base_electrons_mask, q.dileptonpair],
     output=[q.veto_electrons_mask],
-    scopes=["wh", "zh"],
+    scopes=["wh_mme", "zh"],
 )
 VetoSecondElectron = Producer(
     name="VetoSecondElectron",
     call="physicsobject::VetoCandInMask({df}, {output}, {input}, {second_electron_index_in_pair})",
     input=[q.veto_electrons_mask, q.dileptonpair],
     output=[q.veto_electrons_mask_2],
-    scopes=["wh", "zh"],
+    scopes=["wh_mme", "zh"],
 )
 
 ExtraElectronsVeto = Producer(
     name="ExtraElectronsVeto",
     call="physicsobject::LeptonVetoFlag({df}, {output}, {input})",
     input={
-        "wh": [q.veto_electrons_mask],
+        "wh_mme": [q.veto_electrons_mask],
         "zh": [q.veto_electrons_mask],
     },
     output=[q.electron_veto_flag],
-    scopes=["wh", "zh"],
+    scopes=["wh_mme", "zh"],
 )
 NumberOfGoodElectrons = Producer(
     name="NumberOfGoodElectrons",
     call="quantities::NumberOfGoodLeptons({df}, {output}, {input})",
     input=[q.good_electrons_mask],
     output=[q.nelectrons],
-    scopes=["wh", "zh"],
+    scopes=["wh_mme", "zh"],
 )
 
 ####################

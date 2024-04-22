@@ -237,7 +237,7 @@ def build_config(
 	
 	# WH scope selection
     configuration.add_config_parameters(
-        ["wh"],
+        ["wh_mme"],
         {
             "muon_index_in_triple": 0,
             "second_muon_index_in_triple": 1,
@@ -253,6 +253,23 @@ def build_config(
             "min_ele_pt": 20,
 			"max_ele_eta": 2.5,
             "max_ele_iso": 0.3,
+            "p4_23_miss_sf": 0.69,
+        },
+    )
+
+    configuration.add_config_parameters(
+        ["wh_mmm"],
+        {
+            "muon_index_in_triple": 0,
+            "second_muon_index_in_triple": 1,
+            "third_muon_index_in_triple": 2,
+            "min_muon_pt": 26.0,
+            "max_muon_eta": 2.4,
+			"muon_id": "Muon_mediumId",
+            "muon_iso_cut": 0.25,
+			"muon_trg_cut": 1,
+            "min_njets": 0,
+            "min_nbjets": 0,
             "p4_23_miss_sf": 0.69,
         },
     )
@@ -463,7 +480,7 @@ def build_config(
     )
 
     configuration.add_producers(
-		"wh",
+		"wh_mme",
 		[
 			muons.GoodMuons,
             muons.NumberOfGoodMuons,
@@ -483,6 +500,32 @@ def build_config(
             tripleselection.LVMu2Uncorrected,
             tripleselection.LVMu1Uncorrected,
             triplequantities.MMETripleQuantities,
+            scalefactors.MuonIDIsoTrg_SF,
+            scalefactors.MuonTrg_Eff,
+            scalefactors.MuonTrg_SF,
+			triggers.MuMuGenerateSingleMuonTriggerFlags,
+		],
+	)
+
+    configuration.add_producers(
+		"wh_mmm",
+		[
+			muons.GoodMuons,
+            muons.NumberOfGoodMuons,
+            genparticles.GenMatching,
+            genparticles.MMMGenTripleQuantities,
+            met.MetCorrections,
+            met.PFMetCorrections,
+            triplequantities.mt,
+            tripleselection.GoodTripleFilter,
+            tripleselection.MMMTripleSelection,
+            tripleselection.LVMu1,
+            tripleselection.LVMu2,
+            tripleselection.LVMu3,
+            tripleselection.LVMu1Uncorrected,
+            tripleselection.LVMu2Uncorrected,
+            tripleselection.LVMu3Uncorrected,
+            triplequantities.MMMTripleQuantities,
             scalefactors.MuonIDIsoTrg_SF,
             scalefactors.MuonTrg_Eff,
             scalefactors.MuonTrg_SF,
@@ -558,10 +601,20 @@ def build_config(
     )
 
     configuration.add_modification_rule(
-        "wh",
+        ["wh_mme"],
         RemoveProducer(
             producers=[
                 genparticles.MMEGenTripleQuantities,
+            ],
+            samples="data",
+        ),
+    )
+
+    configuration.add_modification_rule(
+        ["wh_mmm"],
+        RemoveProducer(
+            producers=[
+                genparticles.MMMGenTripleQuantities,
             ],
             samples="data",
         ),
@@ -651,7 +704,7 @@ def build_config(
 	
 	# outputs for wh scope
     configuration.add_outputs(
-		"wh",
+		"wh_mme",
 		[
 			q.nelectrons,
             q.is_data,
@@ -685,12 +738,93 @@ def build_config(
             q.p4_23,
             q.p4_23_miss,
             q.p4_123met,
+            q.p4_H,
             q.met,
             q.metphi,
             q.pfmet,
             q.pfmetphi,
             q.metSumEt,
+            q.pt_W,
+            q.eta_vis,
+            q.phi_vis,
+            q.Lt,
+            q.deltaR_12,
+            q.deltaR_13,
+            q.deltaR_23,
+            q.deltaPhi_12,
+            q.deltaPhi_13,
+            q.deltaPhi_WH,
+            q.pt_123met,
+			q.nmuons,
+            q.gen_pt_1,
+            q.gen_eta_1,
+            q.gen_phi_1,
+            q.gen_mass_1,
+            q.gen_pdgid_1,
+            q.gen_pt_2,
+            q.gen_eta_2,
+            q.gen_phi_2,
+            q.gen_mass_2,
+            q.gen_pdgid_2,
+            q.gen_pt_3,
+            q.gen_eta_3,
+            q.gen_phi_3,
+            q.gen_mass_3,
+            q.gen_pdgid_3,
+            q.gen_m_vis,
+            q.id_wgt_mu_1,
+            q.id_wgt_mu_2,
+            q.iso_wgt_mu_1,
+            q.iso_wgt_mu_2,
+			q.trg_effdt_mu_1,
+			q.trg_effdt_mu_2,
+			q.trg_effmc_mu_1,
+			q.trg_effmc_mu_2,
+            q.trg_sf,
+			triggers.MuMuGenerateSingleMuonTriggerFlags.output_group,
+		],
+	)
+
+    configuration.add_outputs(
+		"wh_mmm",
+		[
+            q.is_data,
+            q.is_embedding,
+            q.is_ttbar,
+            q.is_dyjets,
+            q.is_wjets,
+            q.is_diboson,
+            nanoAOD.run,
+            q.lumi,
+			q.npartons,
+            nanoAOD.event,
+            q.puweight,
+            q.pt_1,
+            q.pt_2,
+            q.pt_3,
+            q.eta_1,
+            q.eta_2,
+            q.eta_3,
+            q.phi_1,
+            q.phi_2,
+            q.phi_3,
+            q.mass_1,
+            q.mass_2,
+            q.mass_3,
+            q.q_1,
+            q.q_2,
+            q.q_3,
+            q.m_vis,
+			q.pt_vis,
+            q.p4_23,
+            q.p4_23_miss,
+            q.p4_123met,
             q.p4_H,
+            q.met,
+            q.metphi,
+            q.pfmet,
+            q.pfmetphi,
+            q.metSumEt,
             q.pt_W,
             q.eta_vis,
             q.phi_vis,

@@ -17,7 +17,8 @@ p4_123met = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -32,7 +33,8 @@ p4_23 = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -68,7 +70,8 @@ pt_1 = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -83,7 +86,8 @@ pt_2 = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -92,7 +96,7 @@ pt_3 = Producer(
     call="quantities::pt({df}, {output}, {input})",
     input=[q.p4_3],
     output=[q.pt_3],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 eta_1 = Producer(
     name="eta_1",
@@ -105,7 +109,8 @@ eta_1 = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -120,7 +125,8 @@ eta_2 = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -129,7 +135,7 @@ eta_3 = Producer(
     call="quantities::eta({df}, {output}, {input})",
     input=[q.p4_3],
     output=[q.eta_3],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 phi_1 = Producer(
     name="phi_1",
@@ -142,7 +148,8 @@ phi_1 = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -157,7 +164,8 @@ phi_2 = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -166,14 +174,14 @@ phi_3 = Producer(
     call="quantities::phi({df}, {output}, {input})",
     input=[q.p4_3],
     output=[q.phi_3],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 mass_1 = Producer(
     name="mass_1",
     call="quantities::mass({df}, {output}, {input})",
     input=[q.p4_1],
     output=[q.mass_1],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 mass_2 = Producer(
     name="mass_2",
@@ -186,7 +194,8 @@ mass_2 = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -195,35 +204,35 @@ mass_3 = Producer(
     call="quantities::mass({df}, {output}, {input})",
     input=[q.p4_3],
     output=[q.mass_3],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 m_vis = Producer(
     name="m_vis",
     call="quantities::m_vis({df}, {output}, {input_vec})",
-    input=[q.p4_2, q.p4_3],
+    input=[q.p4_1, q.p4_2],
     output=[q.m_vis],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 pt_vis = Producer(
     name="pt_vis",
     call="quantities::pt_vis({df}, {output}, {input_vec})",
-    input=[q.p4_2, q.p4_3],
+    input=[q.p4_1, q.p4_2],
     output=[q.pt_vis],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 p4_23_miss = Producer(
     name="p4_23_miss",
     call="lorentzvectors::scaleP4({df}, {output}, {input_vec}, {p4_23_miss_sf})",
     input=[q.p4_23],
     output=[q.p4_23_miss],
-    scopes=["emt", "met", "mmt", "wh", "eem", "ett", "mtt"],
+    scopes=["emt", "met", "mmt", "wh_mme", "wh_mmm", "eem", "ett", "mtt"],
 )
 pt_123met = Producer(
     name="pt_123met",
     call="quantities::pt({df}, {output}, {input_vec})",
     input=[q.p4_123met],
     output=[q.pt_123met],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 p4_H = Producer(
     name="p4_H",
@@ -236,7 +245,8 @@ p4_H = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -245,77 +255,77 @@ m_tt = Producer(
     call="quantities::mass({df}, {output}, {input_vec})",
     input=[q.p4_H],
     output=[q.m_tt],
-    scopes=["emt", "met", "mmt", "wh", "eem", "ett", "mtt"],
+    scopes=["emt", "met", "mmt", "wh_mme", "wh_mmm", "eem", "ett", "mtt"],
 )
 pt_W = Producer(
     name="pt_W",
     call="quantities::pt_W({df}, {output}, {input_vec})",
     input=[q.p4_1, q.met_p4_recoilcorrected, q.p4_23_miss],
     output=[q.pt_W],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 deltaR_13 = Producer(
     name="deltaR_13",
     call="quantities::deltaR({df}, {output}, {input})",
     input=[q.p4_1, q.p4_3],
     output=[q.deltaR_13],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 deltaR_23 = Producer(
     name="deltaR_23",
     call="quantities::deltaR({df}, {output}, {input})",
     input=[q.p4_2, q.p4_3],
     output=[q.deltaR_23],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 deltaR_12 = Producer(
     name="deltaR_12",
     call="quantities::deltaR({df}, {output}, {input})",
     input=[q.p4_1, q.p4_2],
     output=[q.deltaR_12],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 deltaPhi_12 = Producer(
     name="deltaPhi_12",
     call="quantities::deltaPhi({df}, {output}, {input})",
     input=[q.p4_1, q.p4_2],
     output=[q.deltaPhi_12],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 deltaPhi_13 = Producer(
     name="deltaPhi_13",
     call="quantities::deltaPhi({df}, {output}, {input})",
     input=[q.p4_1, q.p4_3],
     output=[q.deltaPhi_13],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 deltaPhi_WH = Producer(
     name="deltaPhi_WH",
     call="quantities::deltaPhi_WH({df}, {output}, {input})",
     input=[q.p4_1, q.p4_2, q.p4_3],
     output=[q.deltaPhi_WH],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 eta_vis = Producer(
     name="eta_vis",
     call="quantities::eta({df}, {output}, {input_vec})",
     input=[q.p4_23],
     output=[q.eta_vis],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 phi_vis = Producer(
     name="phi_vis",
     call="quantities::phi({df}, {output}, {input_vec})",
     input=[q.p4_23],
     output=[q.phi_vis],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 Lt = Producer(
     name="Lt",
     call="quantities::scalarPtSum({df}, {output}, {input})",
     input=[q.pt_1, q.pt_2, q.pt_3],
     output=[q.Lt],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 
 ####################
@@ -326,77 +336,77 @@ muon_dxy_wh_1 = Producer(
     call="quantities::dxy({df}, {output}, 0, {input})",
     input=[q.leptontriple, nanoAOD.Muon_dxy],
     output=[q.dxy_1],
-    scopes=["met", "mmt", "mtt", "wh"],
+    scopes=["met", "mmt", "mtt", "wh_mme", "wh_mmm"],
 )
 muon_dxy_wh_2 = Producer(
     name="muon_dxy_wh_2",
     call="quantities::dxy({df}, {output}, 1, {input})",
     input=[q.leptontriple, nanoAOD.Muon_dxy],
     output=[q.dxy_2],
-    scopes=["emt", "mmt", "wh"],
+    scopes=["emt", "mmt", "wh_mme", "wh_mmm"],
 )
 muon_dxy_wh_3 = Producer(
     name="muon_dxy_wh_3",
     call="quantities::dxy({df}, {output}, 2, {input})",
     input=[q.leptontriple, nanoAOD.Muon_dxy],
     output=[q.dxy_3],
-    scopes=["eem"],
+    scopes=["wh_mmm"],
 )
 muon_is_mediumid_1 = Producer(
     name="muon_is_mediumid_1",
     call="quantities::muon::id({df}, {output}, 0, {input})",
     input=[q.leptontriple, nanoAOD.Muon_id_medium],
     output=[q.muon_is_mediumid_1],
-    scopes=["met", "mmt", "wh", "mtt"],
+    scopes=["met", "mmt", "wh_mme", "wh_mmm", "mtt"],
 )
 muon_is_mediumid_2 = Producer(
     name="muon_is_mediumid_2",
     call="quantities::muon::id({df}, {output}, 1, {input})",
     input=[q.leptontriple, nanoAOD.Muon_id_medium],
     output=[q.muon_is_mediumid_2],
-    scopes=["mmt", "wh", "emt"],
+    scopes=["mmt", "wh_mme", "wh_mmm", "emt"],
 )
 muon_is_mediumid_3 = Producer(
     name="muon_is_mediumid_3",
     call="quantities::muon::id({df}, {output}, 2, {input})",
     input=[q.leptontriple, nanoAOD.Muon_id_medium],
     output=[q.muon_is_mediumid_3],
-    scopes=["eem"],
+    scopes=["wh_mmm"],
 )
 muon_is_tracker_3 = Producer(
     name="muon_is_tracker_3",
     call="quantities::muon::is_tracker({df}, {output}, 2, {input})",
     input=[q.leptontriple, nanoAOD.Muon_isTracker],
     output=[q.muon_is_tracker_3],
-    scopes=["eem"],
+    scopes=["wh_mmm"],
 )
 muon_is_global_wh_2 = Producer(
     name="muon_is_global_wh_2",
     call="quantities::muon::is_global({df}, {output}, 1, {input})",
     input=[q.leptontriple, nanoAOD.Muon_isGlobal],
     output=[q.is_global_2],
-    scopes=["emt", "mmt", "wh"],
+    scopes=["emt", "mmt", "wh_mme", "wh_mmm"],
 )
 muon_is_global_wh_1 = Producer(
     name="muon_is_global_wh_1",
     call="quantities::muon::is_global({df}, {output}, 0, {input})",
     input=[q.leptontriple, nanoAOD.Muon_isGlobal],
     output=[q.is_global_1],
-    scopes=["met", "mmt", "mtt", "wh"],
+    scopes=["met", "mmt", "mtt", "wh_mme", "wh_mmm"],
 )
 muon_is_global_wh_2 = Producer(
     name="muon_is_global_wh_2",
     call="quantities::muon::is_global({df}, {output}, 1, {input})",
     input=[q.leptontriple, nanoAOD.Muon_isGlobal],
     output=[q.is_global_2],
-    scopes=["emt", "mmt", "wh"],
+    scopes=["emt", "mmt", "wh_mme", "wh_mmm"],
 )
 muon_is_global_wh_3 = Producer(
     name="muon_is_global_wh_3",
     call="quantities::muon::is_global({df}, {output}, 2, {input})",
     input=[q.leptontriple, nanoAOD.Muon_isGlobal],
     output=[q.is_global_3],
-    scopes=["eem"],
+    scopes=["wh_mmm"],
 )
 
 electron_dxy_wh_1 = Producer(
@@ -418,7 +428,7 @@ electron_dxy_wh_3 = Producer(
     call="quantities::dxy({df}, {output}, 2, {input})",
     input=[q.leptontriple, nanoAOD.Electron_dxy],
     output=[q.dxy_3],
-    scopes=["wh"],
+    scopes=["wh_mme", "wh_mmm"],
 )
 electron_is_nonisowp90_1 = Producer(
     name="electron_is_nonisowp90_1",
@@ -439,7 +449,7 @@ electron_is_nonisowp90_3 = Producer(
     call="quantities::electron::id({df}, {output}, 2, {input})",
     input=[q.leptontriple, nanoAOD.Electron_IDWP90],
     output=[q.electron_is_nonisowp90_3],
-    scopes=["wh"],
+    scopes=["wh_mme", "wh_mmm"],
 )
 tau_dxy_2 = Producer(
     name="tau_dxy_2",
@@ -460,21 +470,21 @@ muon_dz_wh_1 = Producer(
     call="quantities::dz({df}, {output}, 0, {input})",
     input=[q.leptontriple, nanoAOD.Muon_dz],
     output=[q.dz_1],
-    scopes=["met", "mmt", "mtt", "wh"],
+    scopes=["met", "mmt", "mtt", "wh_mme", "wh_mmm"],
 )
 muon_dz_wh_2 = Producer(
     name="muon_dz_wh_2",
     call="quantities::dz({df}, {output}, 1, {input})",
     input=[q.leptontriple, nanoAOD.Muon_dz],
     output=[q.dz_2],
-    scopes=["emt", "mmt", "wh"],
+    scopes=["emt", "mmt", "wh_mme", "wh_mmm"],
 )
 muon_dz_wh_3 = Producer(
     name="muon_dz_wh_3",
     call="quantities::dz({df}, {output}, 2, {input})",
     input=[q.leptontriple, nanoAOD.Muon_dz],
     output=[q.dz_3],
-    scopes=["eem"],
+    scopes=["wh_mmm"],
 )
 electron_dz_wh_1 = Producer(
     name="electron_dz_wh_1",
@@ -495,7 +505,7 @@ electron_dz_wh_3 = Producer(
     call="quantities::dz({df}, {output}, 2, {input})",
     input=[q.leptontriple, nanoAOD.Electron_dz],
     output=[q.dz_3],
-    scopes=["wh"],
+    scopes=["wh_mme", "wh_mmm"],
 )
 tau_dz_2 = Producer(
     name="tau_dz_2",
@@ -516,21 +526,21 @@ muon_q_wh_1 = Producer(
     call="quantities::charge({df}, {output}, 0, {input})",
     input=[q.leptontriple, nanoAOD.Muon_charge],
     output=[q.q_1],
-    scopes=["met", "mmt", "mtt", "wh"],
+    scopes=["met", "mmt", "mtt", "wh_mme", "wh_mmm"],
 )
 muon_q_wh_2 = Producer(
     name="muon_q_wh_2",
     call="quantities::charge({df}, {output}, 1, {input})",
     input=[q.leptontriple, nanoAOD.Muon_charge],
     output=[q.q_2],
-    scopes=["emt", "mmt", "wh"],
+    scopes=["emt", "mmt", "wh_mme", "wh_mmm"],
 )
 muon_q_wh_3 = Producer(
     name="muon_q_wh_3",
     call="quantities::charge({df}, {output}, 2, {input})",
     input=[q.leptontriple, nanoAOD.Muon_charge],
     output=[q.q_3],
-    scopes=["eem"],
+    scopes=["wh_mmm"],
 )
 electron_q_wh_1 = Producer(
     name="electron_q_wh_1",
@@ -551,7 +561,7 @@ electron_q_wh_3 = Producer(
     call="quantities::charge({df}, {output}, 2, {input})",
     input=[q.leptontriple, nanoAOD.Electron_charge],
     output=[q.q_3],
-    scopes=["wh"],
+    scopes=["wh_mme", "wh_mmm"],
 )
 tau_q_2 = Producer(
     name="tau_q_2",
@@ -572,21 +582,21 @@ muon_iso_wh_1 = Producer(
     call="quantities::isolation({df}, {output}, 0, {input})",
     input=[q.leptontriple, nanoAOD.Muon_iso],
     output=[q.iso_1],
-    scopes=["met", "mmt", "mtt", "wh"],
+    scopes=["met", "mmt", "mtt", "wh_mme", "wh_mmm"],
 )
 muon_iso_wh_2 = Producer(
     name="muon_iso_wh_2",
     call="quantities::isolation({df}, {output}, 1, {input})",
     input=[q.leptontriple, nanoAOD.Muon_iso],
     output=[q.iso_2],
-    scopes=["emt", "mmt", "wh"],
+    scopes=["emt", "mmt", "wh_mme", "wh_mmm"],
 )
 muon_iso_wh_3 = Producer(
     name="muon_iso_wh_3",
     call="quantities::isolation({df}, {output}, 2, {input})",
     input=[q.leptontriple, nanoAOD.Muon_iso],
     output=[q.iso_3],
-    scopes=["eem"],
+    scopes=["wh_mmm"],
 )
 electron_iso_wh_1 = Producer(
     name="electron_iso_wh_1",
@@ -607,7 +617,7 @@ electron_iso_wh_3 = Producer(
     call="quantities::isolation({df}, {output}, 2, {input})",
     input=[q.leptontriple, nanoAOD.Electron_iso],
     output=[q.iso_3],
-    scopes=["wh"],
+    scopes=["wh_mme", "wh_mmm"],
 )
 tau_iso_2 = Producer(
     name="tau_iso_2",
@@ -718,7 +728,7 @@ UnrollMuLV1 = ProducerGroup(
     call=None,
     input=None,
     output=None,
-    scopes=["met", "mmt", "mtt", "wh"],
+    scopes=["met", "mmt", "mtt", "wh_mme", "wh_mmm"],
     subproducers=[
         pt_1,
         eta_1,
@@ -737,7 +747,7 @@ UnrollMuLV2 = ProducerGroup(
     call=None,
     input=None,
     output=None,
-    scopes=["emt", "mmt", "wh"],
+    scopes=["emt", "mmt", "wh_mme", "wh_mmm"],
     subproducers=[
         pt_2,
         eta_2,
@@ -756,7 +766,7 @@ UnrollMuLV3 = ProducerGroup(
     call=None,
     input=None,
     output=None,
-    scopes=["eem"],
+    scopes=["wh_mmm"],
     subproducers=[
         pt_3,
         eta_3,
@@ -812,7 +822,7 @@ UnrollElLV3 = ProducerGroup(
     call=None,
     input=None,
     output=None,
-    scopes=["wh"],
+    scopes=["wh_mme", "wh_mmm"],
     subproducers=[
         pt_3,
         eta_3,
@@ -1029,7 +1039,7 @@ MMETripleQuantities = ProducerGroup(
     call=None,
     input=None,
     output=None,
-    scopes=["wh"],
+    scopes=["wh_mme"],
     subproducers=[
         UnrollMuLV1,
         UnrollMuLV2,
@@ -1054,6 +1064,38 @@ MMETripleQuantities = ProducerGroup(
         pt_123met,
     ],
 )
+
+MMMTripleQuantities = ProducerGroup(
+    name="MMMTripleQuantities",
+    call=None,
+    input=None,
+    output=None,
+    scopes=["wh_mmm"],
+    subproducers=[
+        UnrollMuLV1,
+        UnrollMuLV2,
+        UnrollMuLV3,
+        p4_23,
+        p4_123met,
+        p4_23_miss,
+        p4_H,
+        m_vis,
+        m_tt,
+        pt_W,
+        pt_vis,
+        eta_vis,
+        phi_vis,
+        Lt,
+        deltaR_12,
+        deltaR_13,
+        deltaR_23,
+        deltaPhi_12,
+        deltaPhi_13,
+        deltaPhi_WH,
+        pt_123met,
+    ],
+)
+
 EEMTripleQuantities = ProducerGroup(
     name="EEMTripleQuantities",
     call=None,
@@ -1101,7 +1143,8 @@ mt_1 = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -1116,7 +1159,8 @@ mt_2 = Producer(
         "mmt",
         "ett",
         "mtt",
-        "wh",
+        "wh_mme", 
+		"wh_mmm",
         "eem",
     ],
 )
@@ -1125,13 +1169,13 @@ mt_3 = Producer(
     call="quantities::mT({df}, {output}, {input})",
     input=[q.p4_3, q.met_p4_recoilcorrected],
     output=[q.mt_3],
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
 )
 mt = ProducerGroup(
     name="mt",
     call=None,
     input=None,
     output=None,
-    scopes=["emt", "met", "mmt", "ett", "mtt", "wh", "eem"],
+    scopes=["emt", "met", "mmt", "ett", "mtt", "wh_mme", "wh_mmm", "eem"],
     subproducers=[mt_1, mt_2, mt_3],
 )

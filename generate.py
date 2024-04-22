@@ -18,7 +18,7 @@ def run(args):
         "triboson",
     ]
     available_eras = ["2018", "2017", "2016"]
-    available_scopes = ["vbf", "zh", "wh", "mme"]
+    available_scopes = ["vbf", "zh", "wh_mme", "wh_mmm", "wh_mmm", "mme"]
 
     ## setup variables
     shifts = set([shift.lower() for shift in args.shifts])
