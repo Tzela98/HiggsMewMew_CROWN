@@ -16,9 +16,11 @@ def run(args):
         "electroweak_boson",
         "singletop",
         "triboson",
+        "wh",
+        "zh",
     ]
     available_eras = ["2018", "2017", "2016"]
-    available_scopes = ["vbf", "zh", "wh_mme", "wh_mmm", "wh_mmm", "mme"]
+    available_scopes = ["vbf", "zh", "wh_mme", "wh_mmm"]
 
     ## setup variables
     shifts = set([shift.lower() for shift in args.shifts])

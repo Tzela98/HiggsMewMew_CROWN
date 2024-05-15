@@ -77,6 +77,27 @@ is_diboson = Producer(
     output=[q.is_diboson],
     scopes=["global"],
 )
+is_triboson = Producer(
+    name="is_triboson",
+    call="basefunctions::DefineQuantity({df}, {output}, {is_triboson})",
+    input=[],
+    output=[q.is_triboson],
+    scopes=["global"],
+)
+is_wh = Producer(
+    name="is_wh",
+    call="basefunctions::DefineQuantity({df}, {output}, {is_wh})",
+    input=[],
+    output=[q.is_wh],
+    scopes=["global"]
+)
+is_zh = Producer(
+    name="is_zh",
+    call="basefunctions::DefineQuantity({df}, {output}, {is_zh})",
+    input=[],
+    output=[q.is_zh],
+    scopes=["global"]
+)
 
 SampleFlags = ProducerGroup(
     name="SampleFlags",
@@ -91,6 +112,9 @@ SampleFlags = ProducerGroup(
         is_dyjets,
         is_wjets,
         is_diboson,
+        is_triboson,
+        is_wh,
+        is_zh,
     ],
 )
 

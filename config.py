@@ -128,7 +128,7 @@ def build_config(
 
 	# jet base selection:
     configuration.add_config_parameters(
-		"global",
+		["global", "vbf"],
 		{
 			"min_jet_pt": 25,
             "max_jet_eta": 4.7,
@@ -433,26 +433,15 @@ def build_config(
 			electrons.BaseElectrons,
             electrons.RenameElectronPt,
             jets.JetEnergyCorrection,
+            jets.JetPtCorrection_data,
+            #jets.JetMassCorrection,
 			jets.GoodJets,
 			jets.GoodBJets,
             met.MetBasics,
         ],
     )
 
-    # common producers for all scopes
-    '''
-    configuration.add_producers(
-        scopes,
-        [
-            jets.JetCollection,
-            jets.BasicJetQuantities,
-            jets.BJetCollection,
-            jets.BasicBJetQuantities,
-            scalefactors.btagging_SF,
-        ],
-    )
-    '''
-
+    
     configuration.add_producers(
         "vbf",
         [
@@ -470,7 +459,6 @@ def build_config(
             jets.BJetCollection,
             jets.BasicBJetQuantities,
             scalefactors.btagging_SF,
-			jets.JetPtCorrection_data,
             scalefactors.MuonIDIsoTrg_SF,
             scalefactors.MuonTrg_Eff,
             scalefactors.MuonTrg_SF,
@@ -500,6 +488,7 @@ def build_config(
             tripleselection.LVMu2Uncorrected,
             tripleselection.LVMu1Uncorrected,
             triplequantities.MMETripleQuantities,
+            triplequantities.UnrollHLV,
             scalefactors.MuonIDIsoTrg_SF,
             scalefactors.MuonTrg_Eff,
             scalefactors.MuonTrg_SF,
@@ -525,6 +514,7 @@ def build_config(
             tripleselection.LVMu1Uncorrected,
             tripleselection.LVMu2Uncorrected,
             tripleselection.LVMu3Uncorrected,
+            triplequantities.UnrollHLV,
             triplequantities.MMMTripleQuantities,
             scalefactors.MuonIDIsoTrg_SF,
             scalefactors.MuonTrg_Eff,
@@ -570,7 +560,11 @@ def build_config(
     configuration.add_modification_rule(
         "global",
         RemoveProducer(
-            producers=[event.PUweights],
+            producers=[
+                event.PUweights,
+                event.npartons,
+                jets.JetEnergyCorrection,
+            ],
             samples=["data"],
         ),
     )
@@ -581,22 +575,20 @@ def build_config(
             producers=[
                 genparticles.MMGenDiTauPairQuantities,
                 scalefactors.MuonIDIsoTrg_SF,
-				scalefactors.btagging_SF,
 				scalefactors.MuonTrg_Eff,
 				scalefactors.MuonTrg_SF,
-				jets.JetPtCorrection,
             ],
             samples=["data"],
         ),
     )
 
     configuration.add_modification_rule(
-        ["vbf"],
+        ["global"],
         RemoveProducer(
             producers=[
                 jets.JetPtCorrection_data,
             ],
-            samples=["signal", "dyjets", "ttbar", "diboson", "electroweak_boson", "singletop", "triboson"],
+            samples=["signal", "dyjets", "ttbar", "diboson", "electroweak_boson", "singletop", "triboson", "wh", "zh"],
         ),
     )
 
@@ -605,6 +597,10 @@ def build_config(
         RemoveProducer(
             producers=[
                 genparticles.MMEGenTripleQuantities,
+                genparticles.GenMatching,
+                scalefactors.MuonIDIsoTrg_SF,
+				scalefactors.MuonTrg_Eff,
+				scalefactors.MuonTrg_SF,
             ],
             samples="data",
         ),
@@ -615,6 +611,10 @@ def build_config(
         RemoveProducer(
             producers=[
                 genparticles.MMMGenTripleQuantities,
+                genparticles.GenMatching,
+                scalefactors.MuonIDIsoTrg_SF,
+				scalefactors.MuonTrg_Eff,
+				scalefactors.MuonTrg_SF,
             ],
             samples="data",
         ),
@@ -643,6 +643,9 @@ def build_config(
             q.is_dyjets,
             q.is_wjets,
             q.is_diboson,
+            q.is_triboson,
+            q.is_wh,
+            q.is_zh,
             nanoAOD.run,
             q.lumi,
 			q.npartons,
@@ -713,6 +716,9 @@ def build_config(
             q.is_dyjets,
             q.is_wjets,
             q.is_diboson,
+            q.is_triboson,
+            q.is_wh,
+            q.is_zh,
             nanoAOD.run,
             q.lumi,
 			q.npartons,
@@ -733,20 +739,16 @@ def build_config(
             q.q_1,
             q.q_2,
             q.q_3,
-            q.m_vis,
-			q.pt_vis,
-            q.p4_23,
-            q.p4_23_miss,
-            q.p4_123met,
-            q.p4_H,
+            q.pt_H,
+            q.eta_H,
+            q.phi_H,
+            q.m_H,
             q.met,
             q.metphi,
             q.pfmet,
             q.pfmetphi,
             q.metSumEt,
             q.pt_W,
-            q.eta_vis,
-            q.phi_vis,
             q.Lt,
             q.deltaR_12,
             q.deltaR_13,
@@ -754,6 +756,9 @@ def build_config(
             q.deltaPhi_12,
             q.deltaPhi_13,
             q.deltaPhi_WH,
+            q.deltaEta_13,
+            q.deltaEta_23,
+            q.deltaEta_WH,
             q.pt_123met,
 			q.nmuons,
             q.gen_pt_1,
@@ -794,6 +799,9 @@ def build_config(
             q.is_dyjets,
             q.is_wjets,
             q.is_diboson,
+            q.is_triboson,
+            q.is_wh,
+            q.is_zh,
             nanoAOD.run,
             q.lumi,
 			q.npartons,
@@ -814,20 +822,16 @@ def build_config(
             q.q_1,
             q.q_2,
             q.q_3,
-            q.m_vis,
-			q.pt_vis,
-            q.p4_23,
-            q.p4_23_miss,
-            q.p4_123met,
-            q.p4_H,
+            q.pt_H,
+            q.eta_H,
+            q.phi_H,
+            q.m_H,
             q.met,
             q.metphi,
             q.pfmet,
             q.pfmetphi,
             q.metSumEt,
             q.pt_W,
-            q.eta_vis,
-            q.phi_vis,
             q.Lt,
             q.deltaR_12,
             q.deltaR_13,
@@ -835,6 +839,9 @@ def build_config(
             q.deltaPhi_12,
             q.deltaPhi_13,
             q.deltaPhi_WH,
+            q.deltaEta_13,
+            q.deltaEta_23,
+            q.deltaEta_WH,
             q.pt_123met,
 			q.nmuons,
             q.gen_pt_1,
